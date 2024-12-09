@@ -1,0 +1,227 @@
+{
+  "Basic animations" : [
+    {"default" : "idle", "isAbleToStun" : false},
+    {"crouching" : "duck", "isAbleToStun" : false},
+    {"jumping" : "jump", "isAbleToStun" : false},
+    {"forward_walking" : "f_walk", "isAbleToStun" : false},
+    {"backward_walking" : "b_walk", "isAbleToStun" : false},
+    {"light punch" : "l_punch", "isAbleToStun" : true},
+    {"heavy punch" : "h_punch", "isAbleToStun" : true},
+    {"light kick" : "l_kick", "isAbleToStun" : true},
+    {"heavy kick" : "h_kick", "isAbleToStun" : true},
+    {"low kick" : "low_kick", "isAbleToStun" : true},
+    {"upper cut" : "upper_cut", "isAbleToStun" : true},
+    {"blocking" : "block", "isAbleToStun" : true}
+  ],
+  "Scorpion animations" : [
+    { "directory name" : "Default",
+      "stats" : {
+        "name" : "default",
+        "texture" : "idle-pose", "from number": 1,  "count" : 9, "duration" : 0.1, "isLooped" : true, "isAbleToStun" : false,
+        "isReversed" : false, "flip h" : false
+      },
+      "transitions" : [
+        {"name" : "forward_walking" , "immediate" : true},
+        {"name" : "backward_walking" , "immediate" : true}
+      ]
+    },
+    { "directory name" : "FWalking",
+      "stats" : {
+        "name" : "forward_walking",
+        "texture" : "walking", "from number": 1, "count" : 9, "duration" : 0.1, "isLooped" : true, "isAbleToStun" : false,
+        "isReversed" : false, "flip h" : false
+      },
+      "transitions" : [
+        {"name" : "default" , "immediate" : true},
+        {"name" : "backward_walking" , "immediate" : true}
+      ]
+    },
+    { "directory name" : "FWalking",
+      "stats" : {
+        "name" : "backward_walking",
+        "texture" : "walking", "from number": 1, "count" : 9, "duration" : 0.1, "isLooped" : true, "isAbleToStun" : false,
+        "isReversed" : true, "flip h" : false
+      },
+      "transitions" : [
+        {"name" : "default" , "immediate" : true},
+        {"name" : "forward_walking" , "immediate" : true}
+      ]
+    },
+    { "directory name" : "Duck",
+      "stats" : {
+        "name" : "crouching",
+        "texture" : "duck", "from number": 1, "count" : 3, "duration" : 0.033, "isLooped" : false, "isAbleToStun" : false,
+        "isReversed" : false, "flip h" : false
+      },
+      "transitions" : [
+        {"name" : "default" , "immediate" : true},
+        {"name" : "forward_walking" , "immediate" : true},
+        {"name" : "backward_walking" , "immediate" : true}
+      ]
+    },
+    { "directory name" : "LPunch",
+      "stats" : {
+        "name" : "light_punch",
+        "texture" : "light-punch", "from number": 1, "count" : 2, "duration" : 0.0667, "isLooped" : false, "isAbleToStun" : true,
+        "isReversed" : false, "flip h" : false
+      },
+      "transitions" : [
+        {"name" : "a_light_punch" , "immediate" : false}
+      ]
+    },
+    { "directory name" : "LPunch",
+      "stats" : {
+        "name" : "a_light_punch",
+        "texture" : "light-punch", "from number": 3, "count" : 2, "duration" : 0.0667, "isLooped" : false, "isAbleToStun" : true,
+        "isReversed" : false, "flip h" : false
+      },
+      "transitions" : [
+        {"name" : "r_light_punch" , "immediate" : false},
+        {"name" : "heavy_punch_2" , "immediate" : false},
+        {"name" : "light_punch_2" , "immediate" : false}
+      ]
+    },
+    { "directory name" : "LPunch",
+      "stats" : {
+        "name" : "r_light_punch",
+        "texture" : "light-punch", "from number": 1, "count" : 1, "duration" : 0.0667, "isLooped" : false, "isAbleToStun" : true,
+        "isReversed" : false, "flip h" : false
+      },
+      "transitions" : [
+        {"name" : "default" , "immediate" : false}
+      ]
+    },
+    { "directory name" : "HPunch",
+      "stats" : {
+        "name" : "heavy_punch",
+        "texture" : "heavy-punch", "from number": 2, "count" : 2, "duration" : 0.0667, "isLooped" : false, "isAbleToStun" : true,
+        "isReversed" : false, "flip h" : false
+      },
+      "transitions" : [
+        {"name" : "a_heavy_punch" , "immediate" : false}
+      ]
+    },
+    { "directory name" : "HPunch",
+      "stats" : {
+        "name" : "a_heavy_punch",
+        "texture" : "heavy-punch", "from number": 3, "count" : 2, "duration" : 0.0667, "isLooped" : false, "isAbleToStun" : true,
+        "isReversed" : false, "flip h" : false
+      },
+      "transitions" : [
+        {"name" : "r_heavy_punch" , "immediate" : false},
+        {"name" : "heavy_punch_2" , "immediate" : false},
+        {"name" : "light_punch_2" , "immediate" : false}
+      ]
+    },
+    { "directory name" : "HPunch",
+      "stats" : {
+        "name" : "r_heavy_punch",
+        "texture" : "heavy-punch", "from number": 1, "count" : 1, "duration" : 0.0667, "isLooped" : false, "isAbleToStun" : true,
+        "isReversed" : false, "flip h" : false
+      },
+      "transitions" : [
+        {"name" : "default" , "immediate" : false}
+      ]
+    },
+    { "directory name" : "LKick",
+      "stats" : {
+        "name" : "light_kick",
+        "texture" : "light-feet", "from number": 1, "count" : 5, "duration" : 0.0417, "isLooped" : false, "isAbleToStun" : true,
+        "isReversed" : false, "flip h" : false
+      },
+      "transitions" : [
+        {"name" : "a_light_kick" , "immediate" : false}
+      ]
+    },
+    { "directory name" : "LKick",
+      "stats" : {
+        "name" : "a_light_kick",
+        "texture" : "light-feet", "from number": 6, "count" : 2, "duration" : 0.0667, "isLooped" : false, "isAbleToStun" : true,
+        "isReversed" : false, "flip h" : false
+      },
+      "transitions" : [
+        {"name" : "r_light_kick" , "immediate" : false}
+      ]
+    },
+    { "directory name" : "LKick",
+      "stats" : {
+        "name" : "r_light_kick",
+        "texture" : "light-feet", "from number": 1, "count" : 5, "duration" : 0.0667, "isLooped" : false, "isAbleToStun" : true,
+        "isReversed" : true, "flip h" : false
+      },
+      "transitions" : [
+        {"name" : "default" , "immediate" : false}
+      ]
+    },
+    { "directory name" : "HKick",
+      "stats" : {
+        "name" : "heavy_kick",
+        "texture" : "heavy-feet", "from number": 1, "count" : 5, "duration" : 0.0417, "isLooped" : false, "isAbleToStun" : true,
+        "isReversed" : false, "flip h" : false
+      },
+      "transitions" : [
+        {"name" : "a_heavy_kick" , "immediate" : false}
+      ]
+    },
+    { "directory name" : "HKick",
+      "stats" : {
+        "name" : "a_heavy_kick",
+        "texture" : "heavy-feet", "from number": 6, "count" : 2, "duration" : 0.0667, "isLooped" : false, "isAbleToStun" : true,
+        "isReversed" : false, "flip h" : false
+      },
+      "transitions" : [
+        {"name" : "r_heavy_kick" , "immediate" : false}
+      ]
+    },
+    { "directory name" : "HKick",
+      "stats" : {
+        "name" : "r_heavy_kick",
+        "texture" : "heavy-feet", "from number": 1, "count" : 5, "duration" : 0.0667, "isLooped" : false, "isAbleToStun" : true,
+        "isReversed" : true, "flip h" : false
+      },
+      "transitions" : [
+        {"name" : "default" , "immediate" : false}
+      ]
+    },
+    { "directory name" : "HitStun",
+      "stats" : {
+        "name" : "hit_stun",
+        "texture" : "hit-stun", "from number": 1, "count" : 3, "duration" : 0.0667, "isLooped" : false, "isAbleToStun" : true,
+        "isReversed" : false, "flip h" : false
+      },
+      "transitions" : [
+        {"name" : "default" , "immediate" : false}
+      ]
+    },
+    { "directory name" : "UpperCut",
+      "stats" : {
+        "name" : "upper_cut",
+        "texture" : "upper-cut", "from number": 1, "count" : 4, "duration" : 0.0417, "isLooped" : false, "isAbleToStun" : true,
+        "isReversed" : false, "flip h" : false
+      },
+      "transitions" : [
+        {"name" : "a_heavy_kick" , "immediate" : false}
+      ]
+    },
+    { "directory name" : "UpperCut",
+      "stats" : {
+        "name" : "a_upper_cut",
+        "texture" : "upper-cut", "from number": 5, "count" : 2, "duration" : 0.0667, "isLooped" : false, "isAbleToStun" : true,
+        "isReversed" : false, "flip h" : false
+      },
+      "transitions" : [
+        {"name" : "r_heavy_kick" , "immediate" : false}
+      ]
+    },
+    { "directory name" : "UpperCut",
+      "stats" : {
+        "name" : "r_upper_cut",
+        "texture" : "upper-cut", "from number": 3, "count" : 2, "duration" : 0.0667, "isLooped" : false, "isAbleToStun" : true,
+        "isReversed" : true, "flip h" : false
+      },
+      "transitions" : [
+        {"name" : "default" , "immediate" : false}
+      ]
+    }
+  ]
+}
