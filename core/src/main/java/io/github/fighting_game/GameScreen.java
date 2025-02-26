@@ -15,6 +15,8 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.concurrent.ExecutionException;
+
 public class GameScreen implements Screen, InputProcessor {
 
     //Screen
@@ -33,18 +35,27 @@ public class GameScreen implements Screen, InputProcessor {
     //Fields
     private String strSelectedLevel;
     private final float zoomFactor = 0.375f;
-    private final float scale = 1f;
+//    private final float scale = 1f;
 
     //Graphics
     private AnimatedCharacter leftCharacter;
     private AnimatedCharacter rightCharacter;
+
+    private MyCharacter lCharacter;
+    private MyCharacter rCharacter;
+
+    private MyCenteredSprite myCenteredSprite;
+
     private Platform platform;
+
     private ControlButtons controlButtons;
+
     private HealthBar healthBarLeft;
     private HealthBar healthBarRight;
 
-    GameScreen(String strLevelName) {
 
+    //Initiation
+    private void init(String strLevelName){
         int numButtonsSize = 100;
 
         //Load platform
@@ -65,12 +76,36 @@ public class GameScreen implements Screen, InputProcessor {
         //Load left Player
         leftCharacter = new AnimatedCharacter("Scorpion");
         leftCharacter.setPosition(platform.getX() + 500, platform.getY() + 80);
-//        leftCharacter.showColliders(true);
+        leftCharacter.showColliders(true);
+
+//        try{
+//            lCharacter = new MyCharacter("Scorpion");
+//            lCharacter.setPosition(platform.getX() + 490, leftCharacter.getCenteredY());
+//            lCharacter.showColliders(true);
+//
+//            /*myCenteredSprite = new MyCenteredSprite("Characters/Scorpion/Default/idle-pose-1.png",
+//                platform.getX() + 490, platform.getY() + 80);*/
+//        }
+//        catch (Exception e){
+//            System.out.println("LoxL");
+//        }
 
         //Load right Player
         rightCharacter = new AnimatedCharacter("Scorpion");
         rightCharacter.setPosition(platform.getX() + 700, platform.getY() + 80);
         rightCharacter.switchRight();
+//        rightCharacter.showColliders(true);
+
+//        try{
+//            rCharacter = new MyCharacter("Scorpion");
+//            rCharacter.setPosition(platform.getX() + 700, platform.getY() + 80);
+//            rCharacter.showColliders(true);
+//            rCharacter.switchRight();
+//
+//        }
+//        catch (Exception e){
+//            System.out.println("LoxR");
+//        }
 
         //Load animation
         controlButtons = new ControlButtons(numButtonsSize, numButtonsSize, numButtonsSize,
@@ -94,8 +129,10 @@ public class GameScreen implements Screen, InputProcessor {
 //        Gdx.input.setInputProcessor(this);
 
         Gdx.input.setInputProcessor(multiplexer);
+    }
 
-//        System.out.println("Fuck");
+    GameScreen(String strLevelName) {
+        init(strLevelName);
     }
 
     GameScreen() {
@@ -107,6 +144,7 @@ public class GameScreen implements Screen, InputProcessor {
 
     }
 
+    // Render Objects
     @Override
     public void render(float delta) {
         //Clear background
@@ -129,6 +167,11 @@ public class GameScreen implements Screen, InputProcessor {
 
         batch.setProjectionMatrix(camera.combined);
 
+        batchWork(delta);
+
+    }
+
+    private void batchWork(float delta){
         batch.begin();
 
         platform.render(batch);
@@ -140,6 +183,26 @@ public class GameScreen implements Screen, InputProcessor {
         controlButtons.render(batch, delta, camera, platform, rightCharacter);
 
         leftCharacter.collideWithEnemy(rightCharacter);
+
+//        if(lCharacter != null){
+//            lCharacter.movement(false,false,false,false,
+//                platform, rCharacter);
+//
+//            lCharacter.getCurrentAnimation().setPosition(leftCharacter.getCenteredX(), leftCharacter.getCenteredY());
+//            lCharacter.render(batch, delta);
+//
+//
+//        }
+
+//        if(rCharacter != null){
+//            rCharacter.movement(false,false,false,false,
+//                platform, lCharacter);
+//
+//            rCharacter.render(batch, delta);
+//
+//        }
+
+
 
         healthBarLeft.setHealth(leftCharacter.getHealth());
         healthBarRight.setHealth(rightCharacter.getHealth());
@@ -186,11 +249,19 @@ public class GameScreen implements Screen, InputProcessor {
         leftCharacter.dispose();
         rightCharacter.dispose();
 
+        lCharacter.dispose();
+        rCharacter.dispose();
+
         controlButtons.dispose();
 
         healthBarRight.dispose();
         healthBarLeft.dispose();
+
+        myCenteredSprite.dispose();
+
     }
+
+    //Load all objects on the level
 
     private boolean loadPlatform(String strDataPath) {
         FileHandle fileHandle = Gdx.files.internal(strDataPath);
@@ -254,6 +325,8 @@ public class GameScreen implements Screen, InputProcessor {
         }
         return frames;
     }
+
+    // Button methods
 
     @Override
     public boolean keyDown(int keycode) {

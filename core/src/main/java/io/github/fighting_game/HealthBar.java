@@ -31,7 +31,8 @@ public class HealthBar extends TextureObjectCenteredP{
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         shapeRenderer.setColor(Color.BLUE);
-        shapeRenderer.rect(getX() + 2 + (flip_h? getWidth() - (currentHealth / maxHealth) * getWidth() : 0), (float) (getY() + 9), (currentHealth / maxHealth) * getWidth() - 4, (float) (getHeight() - 10.2));
+        shapeRenderer.rect(getX() + 2 + (flip_h? getWidth() - (currentHealth / maxHealth) * getWidth() : 0),
+            (float) (getY() + 9), (currentHealth / maxHealth) * getWidth() - 4, (float) (getHeight() - 10.2));
 
         shapeRenderer.end();
         batch.begin();

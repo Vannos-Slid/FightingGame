@@ -2,12 +2,16 @@ package io.github.fighting_game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Disposable;
 
 public class MyCenteredSprite extends  MySprite {
-    float x;
-    float y;
+
+    private static Texture cashedTexture;
+    private float x;
+    private float y;
 
     MyCenteredSprite(float x, float y, int width, int height, Texture textureObject, boolean flip_h) {
         super(textureObject, unCenter(x, width), unCenter(y, height), width, height,
@@ -35,12 +39,12 @@ public class MyCenteredSprite extends  MySprite {
     }
 
     MyCenteredSprite(String strTexturePath, int width, int height) {
-        this(strTexturePath, width, height, false);
+        this(0, 0, width, height, strTexturePath, false);
     }
 
     MyCenteredSprite(String strTexturePath, float x, float y, boolean flip_h) {
-        super(strTexturePath, unCenter(x,new Texture(strTexturePath).getWidth()),
-            unCenter(y, new Texture(strTexturePath).getHeight()), flip_h);
+        super(strTexturePath, unCenter(x, getCashedTexture(strTexturePath).getWidth()),
+            unCenter(y, getCashedTexture(strTexturePath).getHeight()), flip_h);
         this.x = x;
         this.y = y;
     }
@@ -106,13 +110,37 @@ public class MyCenteredSprite extends  MySprite {
         return num - step / 2;
     }
 
-/*    @Override
-    public void render(SpriteBatch batch) {
-        super.draw(batch);
-    }*/
+    public static Texture getCashedTexture(String strTexturePath) {
+        if(cashedTexture == null){
+            cashedTexture = makeTexture(strTexturePath);
+            return cashedTexture;
+        }
+        return cashedTexture;
+    }
 
-    /*@Override
-    public  void render(float x, float y, SpriteBatch batch){
-        super.draw(unCenter(x, getWidth()), unCenter(y, getHeight()), batch);
-    }*/
+    @Override
+    public void draw(Batch batch) {
+        super.draw(batch);
+    }
+
+
+
+    @Override
+    public void dispose() {
+        if(cashedTexture != null){
+            cashedTexture.dispose();
+            cashedTexture = null;
+        }
+        super.dispose();
+    }
+
+    //    @Override
+//    public void render(SpriteBatch batch) {
+//        super.draw(batch);
+//    }
+//
+//    @Override
+//    public  void render(float x, float y, SpriteBatch batch){
+//        super.draw(unCenter(x, getWidth()), unCenter(y, getHeight()), batch);
+//    }
 }

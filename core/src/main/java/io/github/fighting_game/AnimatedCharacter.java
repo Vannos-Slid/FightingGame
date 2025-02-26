@@ -214,14 +214,13 @@ public class AnimatedCharacter extends TextureObjectCenteredP {
         return false;
     }
 
-    public boolean containCollider(AnimatedCharacter enemy){
-        float colliderPos = hitCollider.getX() + getCenteredX() + hitCollider.getWidth();
-        float enemyColliderPos = enemy.getCenteredX() - enemy.bodyCollider.getX() -
-            (float) enemy.bodyCollider.getWidth() / 2;
-        return isLeft? colliderPos >= enemyColliderPos :
-            getCenteredX() -hitCollider.getCenteredX() - (float) hitCollider.getWidth() / 2 <=
-            enemy.bodyCollider.getX() + enemy.getCenteredX() +
-                (float) enemy.bodyCollider.getWidth() / 2;
+    public boolean canHitEnemy(AnimatedCharacter enemy){
+        float hitColliderPos = hitCollider.getX() + hitCollider.getWidth();
+        float enemyBodyColliderPos = enemy.bodyCollider.getX() + enemy.bodyCollider.getWidth();
+        return isLeft?
+            hitColliderPos + getX() >= enemy.bodyCollider.getX() + enemy.getX() :
+            hitCollider.getX() <= enemyBodyColliderPos;
+
     }
 
     private void hitEnemy(AnimatedCharacter enemy, float damage, float push){
@@ -234,7 +233,7 @@ public class AnimatedCharacter extends TextureObjectCenteredP {
     }
 
     public void collideWithEnemy(AnimatedCharacter enemy) {
-        if (currentAnimation.getName().charAt(0) == 'a' && isActive && containCollider(enemy)) {
+        if (currentAnimation.getName().charAt(0) == 'a' && isActive && canHitEnemy(enemy)) {
             switch (currentAnimation.getName()) {
                 case "a_light_punch":
                     hitEnemy(enemy, 4.8f, 3);
@@ -376,18 +375,19 @@ public class AnimatedCharacter extends TextureObjectCenteredP {
             clearBuffer();
         }
         process(false, false, false, false);
-        showColliders(false);
+//        showColliders(false);
     }
 
     public void render(SpriteBatch batch, float delta){
         update();
 
-        /*batch.setColor(1,1,1, 0.5f);
-        bodyCollider.render(getCenteredX() + bodyCollider.getCenteredX() * (flip_h ? -1 : 1),
+            batch.setColor(1,1,1, 0.5f);
+            bodyCollider.render(getCenteredX() + bodyCollider.getCenteredX() * (flip_h ? -1 : 1),
             getCenteredY() + bodyCollider.getCenteredY(), batch);
-        hitCollider.render(getCenteredX() + hitCollider.getCenteredX() * (flip_h ? -1 : 1),
+            hitCollider.render(getCenteredX() + hitCollider.getCenteredX() * (flip_h ? -1 : 1),
             getCenteredY() + hitCollider.getCenteredY(), batch);
-        batch.setColor(1,1,1, 1);*/
+            batch.setColor(1,1,1, 1);
+
 
         if(currentAnimation == null){
             super.render(batch);

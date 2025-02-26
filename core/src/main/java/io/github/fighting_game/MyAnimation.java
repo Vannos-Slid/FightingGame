@@ -3,12 +3,12 @@ package io.github.fighting_game;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class MyAnimation extends MySprite{
+public class MyAnimation extends MyCenteredSprite{
 
     private String name;
 
-    private Animation<MySprite> animation;
-    private final MySprite[] frames;
+    private Animation<MyCenteredSprite> animation;
+    private final MyCenteredSprite[] frames;
 
     private float stateTime;
     private final float endTime;
@@ -22,10 +22,10 @@ public class MyAnimation extends MySprite{
                                 boolean isReversed, boolean isLooped, boolean isAbleToStun) {
         super(framePaths[0], flip_h);
         this.name = name;
-        frames = new MySprite[framePaths.length];
+        frames = new MyCenteredSprite[framePaths.length];
 
         for (int i = 0; i < framePaths.length; i++){
-            frames[i] = new MySprite(framePaths[i], flip_h);
+            frames[i] = new MyCenteredSprite(framePaths[i], flip_h);
             frames[i].setPosition(getX(), getY());
         }
 
@@ -65,27 +65,32 @@ public class MyAnimation extends MySprite{
 
     public void setX(float x) {
         super.setX(x);
-        for (MySprite frame : frames){
+        for (MyCenteredSprite frame : frames){
             frame.setX(x);
         }
     }
 
     public void setY(float y) {
         super.setY(y);
-        for (MySprite frame : frames){
+        for (MyCenteredSprite frame : frames){
             frame.setY(y);
         }
     }
 
     public void setPosition(float x, float y){
         super.setPosition(x, y);
-        for (MySprite frame : frames){
+        for (MyCenteredSprite frame : frames){
             frame.setPosition(x, y);
         }
     }
 
     public String getName(){
         return name;
+    }
+
+    //TEST
+    public MyCenteredSprite getFrama(){
+        return animation.getKeyFrame(stateTime, isLooped);
     }
 
     public boolean is_reversed(){
@@ -101,7 +106,7 @@ public class MyAnimation extends MySprite{
     @Override
     public void flip(boolean flip_h) {
         super.flip(flip_h);
-        for (MySprite frame : frames){
+        for (MyCenteredSprite frame : frames){
             frame.flip(flip_h);
         }
     }
@@ -140,14 +145,15 @@ public class MyAnimation extends MySprite{
     }
 
     public void render(SpriteBatch batch, float delta) {
-        MySprite currentFrame = animation.getKeyFrame(stateTime, isLooped);
+        MyCenteredSprite currentFrame = animation.getKeyFrame(stateTime, isLooped);
         currentFrame.draw(batch);
         update(delta);
     }
 
+    @Override
     public void dispose(){
         super.dispose();
-        for(MySprite frame : frames){
+        for(MyCenteredSprite frame : frames){
             frame.dispose();
         }
     }

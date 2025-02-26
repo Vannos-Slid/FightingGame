@@ -1,6 +1,8 @@
 package io.github.fighting_game;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MyCollider extends MyCenteredSprite {
@@ -29,6 +31,8 @@ public class MyCollider extends MyCenteredSprite {
         this(collider.getX(), collider.getY(), collider.getWidth(), collider.getHeight());
     }
 
+
+
     //Getters
 
     @Override
@@ -51,6 +55,10 @@ public class MyCollider extends MyCenteredSprite {
         isDisabled = true;
     }
 
+    public void show() {isVisible = true;}
+
+    public void hide() {isVisible = false;}
+
     //Methods
 
     public boolean is_disabled() {
@@ -61,9 +69,41 @@ public class MyCollider extends MyCenteredSprite {
         return isVisible;
     }
 
+
     public void draw(SpriteBatch batch) {
         if(isVisible)
-            super.draw(batch);
+            super.draw(batch, 0.5f);
     }
+
+    public void draw(SpriteBatch batch, float alphaModulation){
+        if(isVisible)
+            super.draw(batch, alphaModulation);
+    }
+
+    @Override
+    public float getCenteredX() {
+        return super.getCenteredX();
+    }
+
+    @Override
+    public float getCenteredY() {
+        return super.getCenteredY();
+    }
+
+    @Override
+    public void setPosition(float x, float y) {
+        super.setPosition(x, y);
+    }
+
+    @Override
+    public void setX(float x) {
+        super.setX(x);
+    }
+
+    @Override
+    public void setY(float y) {
+        super.setY(y);
+    }
+
 
 }

@@ -78,6 +78,10 @@ public class Collider extends TextureObjectCenteredP  {
         isDisabled = true;
     }
 
+    public void show() {isVisible = true;}
+
+    public void hide() {isVisible = false;}
+
     //Methods
 
     public boolean is_disabled() {

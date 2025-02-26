@@ -13,7 +13,7 @@ public class MyAnimationTree {
 
     String name;
     public Map<String, Transition[]> transitionMap;
-    public Map<String, AnimatedTexture> animationMap;
+    public Map<String, MyAnimation> animationMap;
     public Map<String, MyCollider> hitColliderMap;
     public Map<String, MyCollider> bodyColliderMap;
     public Map<String, String> moveSetMap;
@@ -184,9 +184,9 @@ public class MyAnimationTree {
             boolean flip_h = animationStats.getBoolean("flip h");
 
             if (framePaths != null){
-                AnimatedTexture animatedTexture = new AnimatedTexture(name, framePaths, duration,
+                MyAnimation myAnimation = new MyAnimation(name, framePaths, duration,
                     flip_h, isReversed, isLooped, isAbleToStun);
-                animationMap.put(name, animatedTexture);
+                animationMap.put(name, myAnimation);
             }
             else System.out.println("Frame was Null");
 

@@ -10,6 +10,7 @@ apply plugin: 'com.android.application'
 
 android {
   namespace "io.github.fighting_game"
+//  minSdkVersion 21
   compileSdk 34
   sourceSets {
     main {
@@ -59,7 +60,11 @@ repositories {
 configurations { natives }
 
 dependencies {
-  coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+  implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.activity:activity:1.9.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
   implementation "androidx.core:core:1.13.1"
   implementation "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
   implementation project(':core')

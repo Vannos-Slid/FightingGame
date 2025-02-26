@@ -18,17 +18,16 @@ public class MyCharacter extends MyCenteredSprite {
     public boolean shouldClearBuffer;
     private boolean isLeft;
     private boolean isActive;
+    private boolean visibleColliders;
 
     private final MyAnimationTree animationTree;
-    private AnimatedTexture currentAnimation;
+    private MyAnimation currentAnimation;
     public List<String> animationBuffer;
 
     private MyCollider bodyCollider;
     private MyCollider hitCollider;
 
     private float health;
-    boolean flag;
-
 
     MyCharacter(String name, float x, float y, String strTexturePath, boolean flip_h,
                       boolean isLeft) {
@@ -39,7 +38,7 @@ public class MyCharacter extends MyCenteredSprite {
         punchesBuffer = new StringBuffer();
         directionsBuffer = new StringBuffer();
 
-        currentAnimation = new AnimatedTexture("Start", new String[]{strTexturePath},
+        currentAnimation = new MyAnimation("Start", new String[]{strTexturePath},
             0, flip_h);
         currentAnimation.setPosition(x, y);
 
@@ -57,7 +56,7 @@ public class MyCharacter extends MyCenteredSprite {
         this.isLeft = isLeft;
         isActive = true;
 
-        flag = true;
+        visibleColliders = false;
 
         health = 100;
     }
@@ -81,7 +80,7 @@ public class MyCharacter extends MyCenteredSprite {
 
         if(!currentAnimation.getName().equals(newState)){
 
-            AnimatedTexture newAnimation = animationTree.animationMap.get(newState);
+            MyAnimation newAnimation = animationTree.animationMap.get(newState);
             MyCollider newBodyCollider = animationTree.bodyColliderMap.get(newState);
             MyCollider newHitCollider = animationTree.hitColliderMap.get(newState);
 
@@ -96,7 +95,17 @@ public class MyCharacter extends MyCenteredSprite {
 
                 bodyCollider = newBodyCollider;
                 hitCollider = newHitCollider;
+
+                bodyCollider.setPosition(getCenteredX(),
+                    getCenteredY());
+
+                hitCollider.setPosition(getCenteredX() + hitCollider.getCenteredX(),
+                    getCenteredY() + hitCollider.getCenteredY());
             }
+
+            if(visibleColliders)
+                showColliders();
+
         }
     }
 
@@ -111,6 +120,11 @@ public class MyCharacter extends MyCenteredSprite {
 
     public MyCollider getHitCollider() {
         return hitCollider;
+    }
+
+    //TEST
+    public MyAnimation getCurrentAnimation() {
+        return currentAnimation;
     }
 
     public float getHealth(){
@@ -160,18 +174,22 @@ public class MyCharacter extends MyCenteredSprite {
     }
 
     private void resetCurrentAnimationPos(){
-        currentAnimation.setPosition(unCenter(getCenteredX(), currentAnimation.getWidth()),
-            unCenter(getCenteredY(), currentAnimation.getHeight()));
+        currentAnimation.setPosition(getCenteredX(), getCenteredY());
     }
 
 
     public void showColliders(boolean isVisible) {
+        visibleColliders = isVisible;
         bodyCollider.isVisible = isVisible;
         hitCollider.isVisible = isVisible;
     }
 
     public void showColliders(){
         showColliders(true);
+    }
+
+    public void hideColliders(){
+        showColliders(false);
     }
 
     public void moveLeft(Platform platform, MyCharacter enemyChar) {
@@ -339,7 +357,7 @@ public class MyCharacter extends MyCenteredSprite {
 
     private boolean isAnimationValid(String moveName){
         if(moveName == null || moveName.isEmpty()) return false;
-        AnimatedTexture newAnimation = animationTree.animationMap.get(moveName);
+        MyAnimation newAnimation = animationTree.animationMap.get(moveName);
         MyCollider newBodyCollider = animationTree.bodyColliderMap.get(moveName);
         MyCollider newHitCollider = animationTree.hitColliderMap.get(moveName);
         return newAnimation != null && newBodyCollider != null && newHitCollider != null;
@@ -376,25 +394,21 @@ public class MyCharacter extends MyCenteredSprite {
             clearBuffer();
         }
         process(false, false, false, false);
-        showColliders(false);
     }
 
     public void render(SpriteBatch batch, float delta){
         update();
 
-        /*batch.setColor(1,1,1, 0.5f);
-        bodyCollider.render(getCenteredX() + bodyCollider.getCenteredX() * (flip_h ? -1 : 1),
-            getCenteredY() + bodyCollider.getCenteredY(), batch);
-        hitCollider.render(getCenteredX() + hitCollider.getCenteredX() * (flip_h ? -1 : 1),
-            getCenteredY() + hitCollider.getCenteredY(), batch);
-        batch.setColor(1,1,1, 1);*/
+        if(visibleColliders && bodyCollider.isVisible && hitCollider.isVisible){
+            bodyCollider.draw(batch);
+            hitCollider.draw(batch);
+        }
 
         if(currentAnimation == null){
             super.draw(batch);
         }
         else
             currentAnimation.render(batch, delta);
-
     }
 
     public void dispose() {

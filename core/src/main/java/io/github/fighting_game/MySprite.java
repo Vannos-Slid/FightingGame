@@ -5,11 +5,13 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Disposable;
 
-public class MySprite extends Sprite {
+public class MySprite extends Sprite implements Disposable {
     protected boolean flip_h;
 
     public MySprite(Color color, float x, float y, float width, float height){
@@ -31,7 +33,7 @@ public class MySprite extends Sprite {
 
     public MySprite(Texture texture, float x, float y, float width, float height, boolean flip_h){
         super(makeTexture(texture));
-        this.setPosition(x, y);
+        super.setPosition(x, y);
         if (width != 0.f && height != 0){
             this.setSize(width, height);
         }
@@ -93,15 +95,15 @@ public class MySprite extends Sprite {
     }
 
     public MySprite(String strTexturePath, float x, float y, float width, float height){
-        this(makeTexture(strTexturePath), x, y, width, height, false);
+        this(strTexturePath, x, y, width, height, false);
     }
 
     public MySprite(String strTexturePath, float width, float height){
-        this(makeTexture(strTexturePath), 0, 0, width, height, false);
+        this(strTexturePath, 0, 0, width, height, false);
     }
 
     public MySprite(String strTexturePath, boolean flip_h){
-        this(makeTexture(strTexturePath), false);
+        this(strTexturePath,0,0,0,0, false);
     }
 
     public MySprite(Texture texture, int srcWidth, int srcHeight) {
@@ -128,6 +130,7 @@ public class MySprite extends Sprite {
         this(makeTexture(strTexturePath), x, y, 0, 0, flipH);
     }
 
+
     //Methods
 
     public void flip(boolean flip_h){
@@ -142,11 +145,11 @@ public class MySprite extends Sprite {
     }
 
 
-    protected static Texture makeTexture(Texture texture){
+    public static Texture makeTexture(Texture texture){
         return texture != null? texture : createDefaultTexture();
     }
 
-    protected static Texture makeTexture(FileHandle fileHandle){
+    public static Texture makeTexture(FileHandle fileHandle){
         Texture texture;
 
         texture = fileHandle.exists() ? new Texture(fileHandle) : createDefaultTexture();
@@ -154,7 +157,7 @@ public class MySprite extends Sprite {
         return texture;
     }
 
-    protected static Texture makeTexture(String strTexturePath) {
+    public static Texture makeTexture(String strTexturePath) {
         return makeTexture(Gdx.files.internal(strTexturePath));
     }
 
@@ -184,8 +187,14 @@ public class MySprite extends Sprite {
         getTexture().dispose();
     }
 
-/*    protected void draw(float center, float center1, SpriteBatch batch) {
+    @Override
+    public void draw(Batch batch) {
+        super.draw(batch);
+    }
 
-    }*/
+    @Override
+    public void draw(Batch batch, float alphaModulation) {
+        super.draw(batch, alphaModulation);
+    }
 }
 
