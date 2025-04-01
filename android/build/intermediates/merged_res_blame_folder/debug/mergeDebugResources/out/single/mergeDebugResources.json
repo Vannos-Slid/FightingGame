@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "io.github.fighting_game.android-debug-32:/drawable-xhdpi_ic_launcher.png.flat",
+        "source": "io.github.fighting_game.android-android-33:/drawable-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "io.github.fighting_game.android-debug-32:/drawable-hdpi_ic_launcher.png.flat",
+        "source": "io.github.fighting_game.android-android-33:/drawable-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "io.github.fighting_game.android-debug-32:/layout_activity_menu.xml.flat",
+        "source": "io.github.fighting_game.android-android-33:/layout/activity_menu.xml"
+    },
+    {
+        "merged": "io.github.fighting_game.android-debug-32:/drawable-xxxhdpi_ic_launcher.png.flat",
+        "source": "io.github.fighting_game.android-android-33:/drawable-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "io.github.fighting_game.android-debug-32:/drawable-mdpi_ic_launcher.png.flat",
+        "source": "io.github.fighting_game.android-android-33:/drawable-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "io.github.fighting_game.android-debug-32:/drawable-xxhdpi_ic_launcher.png.flat",
+        "source": "io.github.fighting_game.android-android-33:/drawable-xxhdpi/ic_launcher.png"
+    }
+]

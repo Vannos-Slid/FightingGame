@@ -1,0 +1,141 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="io.github.fighting_game"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="19"
+9        android:targetSdkVersion="34" />
+10
+11    <uses-feature
+11-->D:\KOLYA\Documents\JAVA\Fighting Game\android\AndroidManifest.xml:3:1-5:31
+12        android:glEsVersion="0x00020000"
+12-->D:\KOLYA\Documents\JAVA\Fighting Game\android\AndroidManifest.xml:4:5-37
+13        android:required="true" />
+13-->D:\KOLYA\Documents\JAVA\Fighting Game\android\AndroidManifest.xml:5:5-28
+14
+15    <permission
+15-->[androidx.core:core:1.13.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\c31b889495f2a7c798a71b6af37e8a2f\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
+16        android:name="io.github.fighting_game.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+16-->[androidx.core:core:1.13.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\c31b889495f2a7c798a71b6af37e8a2f\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
+17        android:protectionLevel="signature" />
+17-->[androidx.core:core:1.13.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\c31b889495f2a7c798a71b6af37e8a2f\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
+18
+19    <uses-permission android:name="io.github.fighting_game.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+19-->[androidx.core:core:1.13.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\c31b889495f2a7c798a71b6af37e8a2f\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
+19-->[androidx.core:core:1.13.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\c31b889495f2a7c798a71b6af37e8a2f\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
+20
+21    <application
+21-->D:\KOLYA\Documents\JAVA\Fighting Game\android\AndroidManifest.xml:6:1-26:15
+22        android:allowBackup="true"
+22-->D:\KOLYA\Documents\JAVA\Fighting Game\android\AndroidManifest.xml:7:5-31
+23        android:appCategory="game"
+23-->D:\KOLYA\Documents\JAVA\Fighting Game\android\AndroidManifest.xml:11:5-31
+24        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+24-->[androidx.core:core:1.13.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\c31b889495f2a7c798a71b6af37e8a2f\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
+25        android:debuggable="true"
+26        android:extractNativeLibs="true"
+27        android:fullBackupContent="true"
+27-->D:\KOLYA\Documents\JAVA\Fighting Game\android\AndroidManifest.xml:8:5-37
+28        android:icon="@drawable/ic_launcher"
+28-->D:\KOLYA\Documents\JAVA\Fighting Game\android\AndroidManifest.xml:9:5-41
+29        android:isGame="true"
+29-->D:\KOLYA\Documents\JAVA\Fighting Game\android\AndroidManifest.xml:10:5-26
+30        android:label="@string/app_name"
+30-->D:\KOLYA\Documents\JAVA\Fighting Game\android\AndroidManifest.xml:12:5-37
+31        android:testOnly="true"
+32        android:theme="@style/GdxTheme" >
+32-->D:\KOLYA\Documents\JAVA\Fighting Game\android\AndroidManifest.xml:14:5-36
+33        <activity
+33-->D:\KOLYA\Documents\JAVA\Fighting Game\android\AndroidManifest.xml:15:5-25:16
+34            android:name="io.github.fighting_game.android.AndroidLauncher"
+34-->D:\KOLYA\Documents\JAVA\Fighting Game\android\AndroidManifest.xml:16:9-71
+35            android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout"
+35-->D:\KOLYA\Documents\JAVA\Fighting Game\android\AndroidManifest.xml:19:9-103
+36            android:exported="true"
+36-->D:\KOLYA\Documents\JAVA\Fighting Game\android\AndroidManifest.xml:20:9-32
+37            android:label="@string/app_name"
+37-->D:\KOLYA\Documents\JAVA\Fighting Game\android\AndroidManifest.xml:17:9-41
+38            android:screenOrientation="landscape" >
+38-->D:\KOLYA\Documents\JAVA\Fighting Game\android\AndroidManifest.xml:18:9-46
+39            <intent-filter>
+39-->D:\KOLYA\Documents\JAVA\Fighting Game\android\AndroidManifest.xml:21:9-24:25
+40                <action android:name="android.intent.action.MAIN" />
+40-->D:\KOLYA\Documents\JAVA\Fighting Game\android\AndroidManifest.xml:22:13-65
+40-->D:\KOLYA\Documents\JAVA\Fighting Game\android\AndroidManifest.xml:22:21-62
+41
+42                <category android:name="android.intent.category.LAUNCHER" />
+42-->D:\KOLYA\Documents\JAVA\Fighting Game\android\AndroidManifest.xml:23:13-73
+42-->D:\KOLYA\Documents\JAVA\Fighting Game\android\AndroidManifest.xml:23:23-70
+43            </intent-filter>
+44        </activity>
+45
+46        <provider
+46-->[androidx.emoji2:emoji2:1.2.0] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\acfa5b800f56f0777e28aae853525dd6\transformed\emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+47            android:name="androidx.startup.InitializationProvider"
+47-->[androidx.emoji2:emoji2:1.2.0] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\acfa5b800f56f0777e28aae853525dd6\transformed\emoji2-1.2.0\AndroidManifest.xml:25:13-67
+48            android:authorities="io.github.fighting_game.androidx-startup"
+48-->[androidx.emoji2:emoji2:1.2.0] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\acfa5b800f56f0777e28aae853525dd6\transformed\emoji2-1.2.0\AndroidManifest.xml:26:13-68
+49            android:exported="false" >
+49-->[androidx.emoji2:emoji2:1.2.0] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\acfa5b800f56f0777e28aae853525dd6\transformed\emoji2-1.2.0\AndroidManifest.xml:27:13-37
+50            <meta-data
+50-->[androidx.emoji2:emoji2:1.2.0] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\acfa5b800f56f0777e28aae853525dd6\transformed\emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+51                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+51-->[androidx.emoji2:emoji2:1.2.0] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\acfa5b800f56f0777e28aae853525dd6\transformed\emoji2-1.2.0\AndroidManifest.xml:30:17-75
+52                android:value="androidx.startup" />
+52-->[androidx.emoji2:emoji2:1.2.0] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\acfa5b800f56f0777e28aae853525dd6\transformed\emoji2-1.2.0\AndroidManifest.xml:31:17-49
+53            <meta-data
+53-->[androidx.lifecycle:lifecycle-process:2.6.2] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\a4a642943fd483a08840345a2790a4b1\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:29:13-31:52
+54                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+54-->[androidx.lifecycle:lifecycle-process:2.6.2] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\a4a642943fd483a08840345a2790a4b1\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:30:17-78
+55                android:value="androidx.startup" />
+55-->[androidx.lifecycle:lifecycle-process:2.6.2] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\a4a642943fd483a08840345a2790a4b1\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:31:17-49
+56            <meta-data
+56-->[androidx.profileinstaller:profileinstaller:1.3.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\ceb94d2651ce28ce961ae332211bacdd\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+57                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+57-->[androidx.profileinstaller:profileinstaller:1.3.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\ceb94d2651ce28ce961ae332211bacdd\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+58                android:value="androidx.startup" />
+58-->[androidx.profileinstaller:profileinstaller:1.3.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\ceb94d2651ce28ce961ae332211bacdd\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+59        </provider>
+60
+61        <receiver
+61-->[androidx.profileinstaller:profileinstaller:1.3.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\ceb94d2651ce28ce961ae332211bacdd\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+62            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+62-->[androidx.profileinstaller:profileinstaller:1.3.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\ceb94d2651ce28ce961ae332211bacdd\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+63            android:directBootAware="false"
+63-->[androidx.profileinstaller:profileinstaller:1.3.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\ceb94d2651ce28ce961ae332211bacdd\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+64            android:enabled="true"
+64-->[androidx.profileinstaller:profileinstaller:1.3.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\ceb94d2651ce28ce961ae332211bacdd\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+65            android:exported="true"
+65-->[androidx.profileinstaller:profileinstaller:1.3.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\ceb94d2651ce28ce961ae332211bacdd\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+66            android:permission="android.permission.DUMP" >
+66-->[androidx.profileinstaller:profileinstaller:1.3.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\ceb94d2651ce28ce961ae332211bacdd\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+67            <intent-filter>
+67-->[androidx.profileinstaller:profileinstaller:1.3.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\ceb94d2651ce28ce961ae332211bacdd\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+68                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+68-->[androidx.profileinstaller:profileinstaller:1.3.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\ceb94d2651ce28ce961ae332211bacdd\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+68-->[androidx.profileinstaller:profileinstaller:1.3.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\ceb94d2651ce28ce961ae332211bacdd\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+69            </intent-filter>
+70            <intent-filter>
+70-->[androidx.profileinstaller:profileinstaller:1.3.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\ceb94d2651ce28ce961ae332211bacdd\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+71                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+71-->[androidx.profileinstaller:profileinstaller:1.3.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\ceb94d2651ce28ce961ae332211bacdd\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+71-->[androidx.profileinstaller:profileinstaller:1.3.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\ceb94d2651ce28ce961ae332211bacdd\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+72            </intent-filter>
+73            <intent-filter>
+73-->[androidx.profileinstaller:profileinstaller:1.3.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\ceb94d2651ce28ce961ae332211bacdd\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+74                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+74-->[androidx.profileinstaller:profileinstaller:1.3.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\ceb94d2651ce28ce961ae332211bacdd\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+74-->[androidx.profileinstaller:profileinstaller:1.3.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\ceb94d2651ce28ce961ae332211bacdd\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+75            </intent-filter>
+76            <intent-filter>
+76-->[androidx.profileinstaller:profileinstaller:1.3.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\ceb94d2651ce28ce961ae332211bacdd\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+77                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+77-->[androidx.profileinstaller:profileinstaller:1.3.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\ceb94d2651ce28ce961ae332211bacdd\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+77-->[androidx.profileinstaller:profileinstaller:1.3.1] D:\AndroidStudio\.gradle\caches\8.10.2\transforms\ceb94d2651ce28ce961ae332211bacdd\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+78            </intent-filter>
+79        </receiver>
+80    </application>
+81
+82</manifest>

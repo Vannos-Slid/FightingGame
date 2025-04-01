@@ -1,0 +1,24 @@
+{
+	"The Balcony" : {
+      "texture" : "parallax", "x" : 0, "y" : 0, "flip_h" : false,
+      "child_objects" : [
+        {"texture" : "parallax", "x" : 0, "y" : 0, "flip_h" : false},
+        {"texture" : "candles", "x" : 425, "y" : 175, "flip_h" : false},
+        {"texture" : "pillar", "x" : 635, "y" : 135, "flip_h" : false},
+        {"texture" : "pillar", "x" : 540, "y" : 135, "flip_h" : true},
+        {"texture" : "pit", "x" : 485, "y" : 92, "flip_h" : false},
+        {"texture" : "candle_1", "x" : 610, "y" : 155, "flip_h" : false},
+        {"texture" : "candle_2", "x" : 585, "y" : 150, "flip_h" : false},
+        {"texture" : "background_2", "x" : 1005, "y" : 70, "flip_h" : true},
+        {"texture" : "background_2", "x" : 125, "y" : 70, "flip_h" : false},
+        {"texture" : "entrance", "x" : 200, "y" : 70, "flip_h" : false},
+        {"texture" : "torch", "x" : 290, "y" : 65, "flip_h" : false},
+        {"texture" : "torch_with_no_flame", "x" : 875, "y" : 65, "flip_h" : false},
+        {"texture" : "wall_1", "x" : 945, "y" : 0, "flip_h" : false},
+        {"texture" : "wall_1", "x" : 108, "y" : 0, "flip_h" : true},
+        {"texture" : "motaro_statue", "x" : 140, "y" : 95, "flip_h" : false},
+        {"texture" : "motaro_statue_mirrored", "x" : 970, "y" : 95, "flip_h" : false}
+      ]
+    }
+
+}

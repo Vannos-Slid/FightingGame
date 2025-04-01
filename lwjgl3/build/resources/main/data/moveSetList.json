@@ -1,0 +1,21 @@
+{
+  "Basic moves" : [
+    {"input" : "1", "move name" : "light_punch"},
+    {"input" : "2", "move name" :  "heavy_punch"},
+    {"input" : "3", "move name" : "light_kick"},
+    {"input" : "4", "move name" : "heavy_kick"},
+    {"input" : "D1", "move name" : "pock"},
+    {"input" : "D2", "move name" : "upper_cut"},
+    {"input" : "D3", "move name" : "low_l_kick"},
+    {"input" : "D4", "move name" : "low_h_kick"},
+    {"input" : "B4", "move name" : "low_kick"},
+    {"input" : "FFO", "move name" : "run"}
+  ],
+  "Scorpion moves" : [
+    {"input" : "BB1", "move name" : "spear"},
+    {"input" : "DB2", "move name" : "teleport"},
+    {"input" : "22U1", "move name" : "combo_1"},
+    { "input" : "4433", "move name" : "combo_2"},
+    { "input" : "224B4", "move name" : "combo_3"}
+  ]
+}

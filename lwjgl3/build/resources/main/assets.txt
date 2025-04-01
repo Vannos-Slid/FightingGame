@@ -1,0 +1,102 @@
+Buttons/directions.png
+Buttons/directions_white.png
+Buttons/punches_2.png
+Buttons/punches_white.png
+Characters/Scorpion/Default/idle-pose-1.png
+Characters/Scorpion/Default/idle-pose-2.png
+Characters/Scorpion/Default/idle-pose-3.png
+Characters/Scorpion/Default/idle-pose-4.png
+Characters/Scorpion/Default/idle-pose-5.png
+Characters/Scorpion/Default/idle-pose-6.png
+Characters/Scorpion/Default/idle-pose-7.png
+Characters/Scorpion/Default/idle-pose-8.png
+Characters/Scorpion/Default/idle-pose-9.png
+Characters/Scorpion/Duck/duck-1.png
+Characters/Scorpion/Duck/duck-2.png
+Characters/Scorpion/Duck/duck-3.png
+Characters/Scorpion/FWalking/walking-1.png
+Characters/Scorpion/FWalking/walking-2.png
+Characters/Scorpion/FWalking/walking-3.png
+Characters/Scorpion/FWalking/walking-4.png
+Characters/Scorpion/FWalking/walking-5.png
+Characters/Scorpion/FWalking/walking-6.png
+Characters/Scorpion/FWalking/walking-7.png
+Characters/Scorpion/FWalking/walking-8.png
+Characters/Scorpion/FWalking/walking-9.png
+Characters/Scorpion/HKick/heavy-feet-1.png
+Characters/Scorpion/HKick/heavy-feet-2.png
+Characters/Scorpion/HKick/heavy-feet-3.png
+Characters/Scorpion/HKick/heavy-feet-4.png
+Characters/Scorpion/HKick/heavy-feet-5.png
+Characters/Scorpion/HKick/heavy-feet-6.png
+Characters/Scorpion/HPunch/heavy-punch-1.png
+Characters/Scorpion/HPunch/heavy-punch-2.png
+Characters/Scorpion/HPunch/heavy-punch-3.png
+Characters/Scorpion/HPunch/heavy-punch-4.png
+Characters/Scorpion/HPunch/heavy-punch-5.png
+Characters/Scorpion/HPunch/heavy-punch-6.png
+Characters/Scorpion/HitStun/hit-stun-1.png
+Characters/Scorpion/HitStun/hit-stun-2.png
+Characters/Scorpion/HitStun/hit-stun-3.png
+Characters/Scorpion/LKick/light-feet-1.png
+Characters/Scorpion/LKick/light-feet-2.png
+Characters/Scorpion/LKick/light-feet-3.png
+Characters/Scorpion/LKick/light-feet-4.png
+Characters/Scorpion/LKick/light-feet-5.png
+Characters/Scorpion/LKick/light-feet-6.png
+Characters/Scorpion/LPunch/light-punch-1.png
+Characters/Scorpion/LPunch/light-punch-2.png
+Characters/Scorpion/LPunch/light-punch-3.png
+Characters/Scorpion/LPunch/light-punch-4.png
+Characters/Scorpion/LPunch/light-punch-5.png
+Characters/Scorpion/LPunch/light-punch-6.png
+Characters/Scorpion/UpperCut/upper-cut-1.png
+Characters/Scorpion/UpperCut/upper-cut-2.png
+Characters/Scorpion/UpperCut/upper-cut-3.png
+Characters/Scorpion/UpperCut/upper-cut-4.png
+Characters/Scorpion/UpperCut/upper-cut-5.png
+Levels/The Balcony/0.png
+Levels/The Balcony/12.png
+Levels/The Balcony/13.png
+Levels/The Balcony/14.png
+Levels/The Balcony/15.png
+Levels/The Balcony/16.png
+Levels/The Balcony/17.png
+Levels/The Balcony/18.png
+Levels/The Balcony/2.png
+Levels/The Balcony/20.png
+Levels/The Balcony/21.png
+Levels/The Balcony/22.png
+Levels/The Balcony/23.png
+Levels/The Balcony/3.png
+Levels/The Balcony/7.png
+Levels/The Balcony/8.png
+Levels/The Balcony/9.png
+Levels/The Balcony/background_1.png
+Levels/The Balcony/background_2.png
+Levels/The Balcony/candle_1.png
+Levels/The Balcony/candle_2.png
+Levels/The Balcony/candles.png
+Levels/The Balcony/entrance.png
+Levels/The Balcony/flame_animation.gif
+Levels/The Balcony/frame_0_delay-0.1s.png
+Levels/The Balcony/frame_1_delay-0.1s.png
+Levels/The Balcony/frame_2_delay-0.1s.png
+Levels/The Balcony/frame_3_delay-0.1s.png
+Levels/The Balcony/frame_4_delay-0.1s.png
+Levels/The Balcony/frame_5_delay-0.1s.png
+Levels/The Balcony/motaro_statue.png
+Levels/The Balcony/motaro_statue_mirrored.png
+Levels/The Balcony/parallax.png
+Levels/The Balcony/pillar.png
+Levels/The Balcony/pit.png
+Levels/The Balcony/torch.png
+Levels/The Balcony/torch_with_no_flame.png
+Levels/The Balcony/wall_1.png
+LifeBar/lifeBar1.png
+LifeBar/lifebar.png
+data/animationStats.json
+data/colliders.json
+data/maps.json
+data/moveSetList.json
+libgdx.png

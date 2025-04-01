@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "io.github.fighting_game.android-mergeDebugResources-30:/values-hdpi-v4/values-hdpi-v4.xml",
+            "map": [
+                {
+                    "source": "D:\\AndroidStudio\\.gradle\\caches\\8.10.2\\transforms\\b374739514b0896bd9ddd09fa1bcd972\\transformed\\appcompat-1.6.1\\res\\values-hdpi-v4\\values-hdpi-v4.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "6",
+                        "endColumns": "13",
+                        "endOffsets": "327"
+                    }
+                }
+            ]
+        }
+    ]
+}

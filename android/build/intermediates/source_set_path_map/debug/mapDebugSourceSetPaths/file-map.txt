@@ -1,0 +1,35 @@
+io.github.fighting_game.android-lifecycle-viewmodel-2.6.2-0 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\0440a8ad210b07b7f067836d72614f27\transformed\lifecycle-viewmodel-2.6.2\res
+io.github.fighting_game.android-material-1.12.0-1 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\0540dbaa4a1d2ff21d9daf8341065d7d\transformed\material-1.12.0\res
+io.github.fighting_game.android-fragment-1.3.6-2 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\156169892fdba05debdb9792131f9901\transformed\fragment-1.3.6\res
+io.github.fighting_game.android-viewpager2-1.0.0-3 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\15e052ce146f492a75c6e9292c88b464\transformed\viewpager2-1.0.0\res
+io.github.fighting_game.android-lifecycle-runtime-2.6.2-4 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\185c0dcffd79a7921bc095e191296f51\transformed\lifecycle-runtime-2.6.2\res
+io.github.fighting_game.android-lifecycle-viewmodel-savedstate-2.6.2-5 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\3723fb62134e4ab141f465890a087884\transformed\lifecycle-viewmodel-savedstate-2.6.2\res
+io.github.fighting_game.android-appcompat-resources-1.6.1-6 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\3f532fee442a2f8a00f70b6cb6773716\transformed\appcompat-resources-1.6.1\res
+io.github.fighting_game.android-cardview-1.0.0-7 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\402381b6a779bb235f45a148f30a7722\transformed\cardview-1.0.0\res
+io.github.fighting_game.android-recyclerview-1.1.0-8 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\7ae4bd4d7796801cd73bde2017484707\transformed\recyclerview-1.1.0\res
+io.github.fighting_game.android-savedstate-1.2.1-9 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\7ceea69506595ee1a4aac7d71c20ec8c\transformed\savedstate-1.2.1\res
+io.github.fighting_game.android-gdx-backend-android-1.13.0-10 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\87e4321b4f3e8748ba2412468c25576b\transformed\gdx-backend-android-1.13.0\res
+io.github.fighting_game.android-emoji2-views-helper-1.2.0-11 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\89c395a5862a7aaea6a48e8b3f8d7987\transformed\emoji2-views-helper-1.2.0\res
+io.github.fighting_game.android-transition-1.5.0-12 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\8ad6494c74059fdc67d968a3bf075900\transformed\transition-1.5.0\res
+io.github.fighting_game.android-annotation-experimental-1.4.0-13 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\8e5b72e5a3d91cdba068c709127ce8e6\transformed\annotation-experimental-1.4.0\res
+io.github.fighting_game.android-lifecycle-livedata-2.6.2-14 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\950ba29b32709b6b55636f52226d71c3\transformed\lifecycle-livedata-2.6.2\res
+io.github.fighting_game.android-core-ktx-1.13.1-15 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\a11b9d88c4b9dad6f120879b37798c48\transformed\core-ktx-1.13.1\res
+io.github.fighting_game.android-drawerlayout-1.1.1-16 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\a1e3261677de2d3b0d0bcea871bbb6c6\transformed\drawerlayout-1.1.1\res
+io.github.fighting_game.android-lifecycle-process-2.6.2-17 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\a4a642943fd483a08840345a2790a4b1\transformed\lifecycle-process-2.6.2\res
+io.github.fighting_game.android-emoji2-1.2.0-18 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\acfa5b800f56f0777e28aae853525dd6\transformed\emoji2-1.2.0\res
+io.github.fighting_game.android-appcompat-1.6.1-19 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\b374739514b0896bd9ddd09fa1bcd972\transformed\appcompat-1.6.1\res
+io.github.fighting_game.android-core-runtime-2.2.0-20 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\b710c44b2340df47cb849393820bcc93\transformed\core-runtime-2.2.0\res
+io.github.fighting_game.android-core-1.13.1-21 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\c31b889495f2a7c798a71b6af37e8a2f\transformed\core-1.13.1\res
+io.github.fighting_game.android-profileinstaller-1.3.1-22 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\ceb94d2651ce28ce961ae332211bacdd\transformed\profileinstaller-1.3.1\res
+io.github.fighting_game.android-coordinatorlayout-1.1.0-23 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\debbfd4069ff49c241354b77f3d82dd2\transformed\coordinatorlayout-1.1.0\res
+io.github.fighting_game.android-startup-runtime-1.1.1-24 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\df85c0ce0204b8a7d926f79d37ab0932\transformed\startup-runtime-1.1.1\res
+io.github.fighting_game.android-constraintlayout-2.1.4-25 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\e2d4f90b1bea843528c3a3384a8ca5d9\transformed\constraintlayout-2.1.4\res
+io.github.fighting_game.android-lifecycle-livedata-core-2.6.2-26 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\e70c6e439a89a8209ac72981a15207a6\transformed\lifecycle-livedata-core-2.6.2\res
+io.github.fighting_game.android-activity-1.9.2-27 D:\AndroidStudio\.gradle\caches\8.10.2\transforms\fcd0778b11ea05ff93646c6b201189ad\transformed\activity-1.9.2\res
+io.github.fighting_game.android-pngs-28 D:\KOLYA\Documents\JAVA\Fighting Game\android\build\generated\res\pngs\debug
+io.github.fighting_game.android-resValues-29 D:\KOLYA\Documents\JAVA\Fighting Game\android\build\generated\res\resValues\debug
+io.github.fighting_game.android-packageDebugResources-30 D:\KOLYA\Documents\JAVA\Fighting Game\android\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+io.github.fighting_game.android-packageDebugResources-31 D:\KOLYA\Documents\JAVA\Fighting Game\android\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+io.github.fighting_game.android-debug-32 D:\KOLYA\Documents\JAVA\Fighting Game\android\build\intermediates\merged_res\debug\mergeDebugResources
+io.github.fighting_game.android-android-33 D:\KOLYA\Documents\JAVA\Fighting Game\android\res
+io.github.fighting_game.android-debug-34 D:\KOLYA\Documents\JAVA\Fighting Game\android\src\debug\res
