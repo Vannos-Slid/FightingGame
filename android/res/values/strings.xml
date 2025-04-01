@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FightingGame</string>
+    <string name="moveList">data/maps.json</string>
+    <string name="lifeBar">LifeBar/lifeBar1.png</string>
+</resources>
