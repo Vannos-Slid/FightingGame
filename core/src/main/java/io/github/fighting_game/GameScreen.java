@@ -4,18 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.util.concurrent.ExecutionException;
 
 public class GameScreen implements Screen, InputProcessor {
 
@@ -67,9 +63,6 @@ public class GameScreen implements Screen, InputProcessor {
             lCharacter = new MyCharacter("Scorpion");
             lCharacter.setPosition(leftCharacter.getCenteredX(), leftCharacter.getCenteredY());
             lCharacter.showColliders(true);
-
-            /*myCenteredSprite = new MyCenteredSprite("Characters/Scorpion/Default/idle-pose-1.png",
-                platform.getX() + 490, platform.getY() + 80);*/
         }
         catch (Exception e){
             System.out.println("LoxL");
@@ -100,7 +93,7 @@ public class GameScreen implements Screen, InputProcessor {
         strSelectedLevel = strLevelName;
 //        String strDataPath = "data/maps.json";
 
-        platform = MySimplerMethods.loadPlatform(strLevelName);
+        platform = MySimplerMethods.loadPlatform(strSelectedLevel);
 //        if(isValid)
 //            System.out.println("Map has been loaded successfully");
         int newPlatformX = (WORLD_WIDTH - platform.getWidth())/2;
@@ -249,6 +242,8 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public void dispose() {
+        stage.dispose();
+
         batch.dispose();
 
         platform.dispose();
@@ -265,7 +260,6 @@ public class GameScreen implements Screen, InputProcessor {
         healthBarLeft.dispose();
 
         myCenteredSprite.dispose();
-
     }
 
     // Button methods
