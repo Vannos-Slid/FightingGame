@@ -55,15 +55,54 @@ public class GameScreen implements Screen, InputProcessor {
 
 
     //Initiation
+
+    private void charactersInit(){
+        //Load left Player
+        leftCharacter = new AnimatedCharacter("Scorpion");
+        leftCharacter.setPosition(platform.getX() + 500, platform.getY() + 80);
+        System.out.println(leftCharacter.getCenteredX());
+        leftCharacter.showColliders(true);
+
+        try{
+            lCharacter = new MyCharacter("Scorpion");
+            lCharacter.setPosition(leftCharacter.getCenteredX(), leftCharacter.getCenteredY());
+            lCharacter.showColliders(true);
+
+            /*myCenteredSprite = new MyCenteredSprite("Characters/Scorpion/Default/idle-pose-1.png",
+                platform.getX() + 490, platform.getY() + 80);*/
+        }
+        catch (Exception e){
+            System.out.println("LoxL");
+        }
+
+        //Load right Player
+        rightCharacter = new AnimatedCharacter("Scorpion");
+        rightCharacter.setPosition(platform.getX() + 700, platform.getY() + 80);
+        rightCharacter.switchRight();
+//        rightCharacter.showColliders(true);
+
+        try{
+            rCharacter = new MyCharacter("Scorpion");
+            rCharacter.setPosition(platform.getX() + 700, platform.getY() + 80);
+            rCharacter.showColliders(true);
+            rCharacter.switchRight();
+
+        }
+        catch (Exception e){
+            System.out.println("LoxR");
+        }
+    }
+
     private void init(String strLevelName){
         int numButtonsSize = 100;
 
         //Load platform
         strSelectedLevel = strLevelName;
-        String strDataPath = "data/maps.json";
-        boolean isValid = loadPlatform(strDataPath);
-        if(isValid)
-            System.out.println("Map has been loaded successfully");
+//        String strDataPath = "data/maps.json";
+
+        platform = MySimplerMethods.loadPlatform(strLevelName);
+//        if(isValid)
+//            System.out.println("Map has been loaded successfully");
         int newPlatformX = (WORLD_WIDTH - platform.getWidth())/2;
         platform.setX(newPlatformX);
 
@@ -73,44 +112,13 @@ public class GameScreen implements Screen, InputProcessor {
             WORLD_HEIGHT * zoomFactor, camera);
         viewport.apply();
 
-        //Load left Player
-        leftCharacter = new AnimatedCharacter("Scorpion");
-        leftCharacter.setPosition(platform.getX() + 500, platform.getY() + 80);
-        leftCharacter.showColliders(true);
+        charactersInit();
 
-//        try{
-//            lCharacter = new MyCharacter("Scorpion");
-//            lCharacter.setPosition(platform.getX() + 490, leftCharacter.getCenteredY());
-//            lCharacter.showColliders(true);
-//
-//            /*myCenteredSprite = new MyCenteredSprite("Characters/Scorpion/Default/idle-pose-1.png",
-//                platform.getX() + 490, platform.getY() + 80);*/
-//        }
-//        catch (Exception e){
-//            System.out.println("LoxL");
-//        }
-
-        //Load right Player
-        rightCharacter = new AnimatedCharacter("Scorpion");
-        rightCharacter.setPosition(platform.getX() + 700, platform.getY() + 80);
-        rightCharacter.switchRight();
-//        rightCharacter.showColliders(true);
-
-//        try{
-//            rCharacter = new MyCharacter("Scorpion");
-//            rCharacter.setPosition(platform.getX() + 700, platform.getY() + 80);
-//            rCharacter.showColliders(true);
-//            rCharacter.switchRight();
-//
-//        }
-//        catch (Exception e){
-//            System.out.println("LoxR");
-//        }
-
-        //Load animation
+        //Load buttons
         controlButtons = new ControlButtons(numButtonsSize, numButtonsSize, numButtonsSize,
             numButtonsSize, leftCharacter);
 
+        //Load health bars
         healthBarLeft = new HealthBar(100, 0, 0, "LifeBar/lifeBar1.png",
             false);
 
@@ -176,33 +184,32 @@ public class GameScreen implements Screen, InputProcessor {
 
         platform.render(batch);
 
-        rightCharacter.movement(false,false,false,
-            false, platform, leftCharacter);
-        rightCharacter.render(batch, delta);
-
-        controlButtons.render(batch, delta, camera, platform, rightCharacter);
-
-        leftCharacter.collideWithEnemy(rightCharacter);
-
-//        if(lCharacter != null){
-//            lCharacter.movement(false,false,false,false,
-//                platform, rCharacter);
+//        rightCharacter.movement(false,false,false,
+//            false, platform, leftCharacter);
+//        rightCharacter.render(batch, delta);
 //
-//            lCharacter.getCurrentAnimation().setPosition(leftCharacter.getCenteredX(), leftCharacter.getCenteredY());
-//            lCharacter.render(batch, delta);
+//        controlButtons.render(batch, delta, camera, platform, rightCharacter);
 //
-//
-//        }
+//        leftCharacter.collideWithEnemy(rightCharacter);
 
-//        if(rCharacter != null){
-//            rCharacter.movement(false,false,false,false,
-//                platform, lCharacter);
-//
-//            rCharacter.render(batch, delta);
-//
-//        }
+        if(lCharacter != null){
+
+            lCharacter.movement(false,false,false,false,
+                platform, rCharacter);
+
+            System.out.println(leftCharacter.getCenteredX() + '\n' + lCharacter.getCenteredX());
+            lCharacter.render(batch, delta);
 
 
+        }
+
+        if(rCharacter != null){
+            rCharacter.movement(false,false,false,false,
+                platform, lCharacter);
+
+            rCharacter.render(batch, delta);
+
+        }
 
         healthBarLeft.setHealth(leftCharacter.getHealth());
         healthBarRight.setHealth(rightCharacter.getHealth());
@@ -210,10 +217,10 @@ public class GameScreen implements Screen, InputProcessor {
         healthBarLeft.render(batch, camera);
         healthBarRight.render(batch, camera);
 
-        if (controlButtons.directionButtons.isUpPressed){
-            leftCharacter.setPosition(platform.getX() + 500, platform.getY() + 80);
-            rightCharacter.setPosition(platform.getX() + 700, platform.getY() + 80);
-        }
+//        if (controlButtons.directionButtons.isUpPressed){
+//            leftCharacter.setPosition(platform.getX() + 500, platform.getY() + 80);
+//            rightCharacter.setPosition(platform.getX() + 700, platform.getY() + 80);
+//        }
 
         batch.end();
     }
@@ -259,71 +266,6 @@ public class GameScreen implements Screen, InputProcessor {
 
         myCenteredSprite.dispose();
 
-    }
-
-    //Load all objects on the level
-
-    private boolean loadPlatform(String strDataPath) {
-        FileHandle fileHandle = Gdx.files.internal(strDataPath);
-        if(fileHandle.exists()){
-            JsonReader jsonReader = new JsonReader();
-            JsonValue root = jsonReader.parse(fileHandle);
-
-            JsonValue platformStats = root.get(strSelectedLevel);
-
-            if(platformStats == null){
-                System.out.println("Can't find level with this name");
-                platform = new Platform("Null");
-                return false;
-            }
-
-            String platformTexturePath = createTexturePath(platformStats.getString("texture"));
-            float x = platformStats.getFloat("x");
-            float y = platformStats.getFloat("y");
-            boolean flip_h = platformStats.getBoolean("flip_h");
-
-            JsonValue levelObjects = platformStats.get("child_objects");
-
-            if(levelObjects == null){
-                platform = new Platform(x, y, platformTexturePath, flip_h);
-                return false;
-            }
-
-            TextureObjectP[] textureObjectPS = new TextureObjectP[levelObjects.size];
-
-            for(int i = 0; i < levelObjects.size; i++) {
-                JsonValue objData = levelObjects.get(i);
-                String texturePath = "Levels/" + strSelectedLevel + "/" +
-                    objData.getString("texture") + ".png";
-                float childX = objData.getFloat("x");
-                float childY = objData.getFloat("y");
-                boolean child_flip_h1 = objData.getBoolean("flip_h");
-
-                textureObjectPS[i] = new TextureObjectP(x + childX, y + childY,
-                    texturePath, child_flip_h1);
-            }
-
-            platform = new Platform(x, y, platformTexturePath, flip_h, textureObjectPS);
-            return true;
-        }
-        System.out.print("Invalid path: " + strDataPath + " to json file");
-        platform = new Platform("Null");
-        return false;
-    }
-
-    private String createTexturePath(String textureName){
-        if(textureName == null)
-            return "Null";
-        return  "Levels/" + strSelectedLevel + "/" + textureName + ".png";
-    }
-
-    private String[] createAnimationPath(String characterName, String[] frameNames){
-        String[] frames = new String[frameNames.length];
-        for(int i = 0; i < frameNames.length; i++){
-            frames[i] = "Characters/" + characterName + "/Default/" +
-                frameNames[i] + ".png";
-        }
-        return frames;
     }
 
     // Button methods

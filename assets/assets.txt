@@ -1,7 +1,11 @@
+Buttons/circle.png
+Buttons/cross.png
 Buttons/directions.png
 Buttons/directions_white.png
 Buttons/punches_2.png
 Buttons/punches_white.png
+Buttons/square.png
+Buttons/triangle.png
 Characters/Scorpion/Default/idle-pose-1.png
 Characters/Scorpion/Default/idle-pose-2.png
 Characters/Scorpion/Default/idle-pose-3.png
@@ -95,8 +99,10 @@ Levels/The Balcony/torch_with_no_flame.png
 Levels/The Balcony/wall_1.png
 LifeBar/lifeBar1.png
 LifeBar/lifebar.png
+data/UI-skins/uiskin.json
 data/animationStats.json
 data/colliders.json
+data/controler.json
 data/maps.json
 data/moveSetList.json
 libgdx.png

@@ -21,7 +21,9 @@ public class MyCharacter extends MyCenteredSprite {
     private boolean visibleColliders;
 
     private final MyAnimationTree animationTree;
+
     private MyAnimation currentAnimation;
+
     public List<String> animationBuffer;
 
     private MyCollider bodyCollider;
@@ -46,10 +48,10 @@ public class MyCharacter extends MyCenteredSprite {
 
         animationBuffer = new ArrayList<>();
 
-        bodyCollider = new MyCollider(getCenteredX(), getCenteredY(), (int) getWidth(), (int) getHeight(),
-            false);
-        hitCollider = new MyCollider(getCenteredX(), getCenteredY(), 50, 50,
-            true);
+        bodyCollider = new MyCollider(getCenteredX(), getCenteredY(), getCenteredX(), getCenteredY(),
+            (int) getWidth(), (int) getHeight(), false);
+        hitCollider = new MyCollider( getCenteredX(), getCenteredY(), getCenteredX(), getCenteredY(),
+            50, 50, true);
 
         shouldClearBuffer = false;
         isOnFloor = false;
@@ -65,16 +67,22 @@ public class MyCharacter extends MyCenteredSprite {
         this("Scorpion", x, y, strTexturePath, flip_h, isLeft);
     }
 
+    MyCharacter(String strTexturePath, boolean flip_h, boolean isLeft){
+        this("Scorpion", 0, 0, strTexturePath, flip_h, isLeft);
+    }
+
     MyCharacter(String name){
         this(name, 0, 0, "Characters/" + name + "/Default/idle-pose-1.png",
             false, true);
     }
 
     @Override
-    public void setPosition(float x, float y) {
+     public void setPosition(float x, float y) {
         super.setPosition(x, y);
         resetCurrentAnimationPos();
+        resetCurrentColliderPos();
     }
+
 
     public void setState(String newState){
 
@@ -175,6 +183,14 @@ public class MyCharacter extends MyCenteredSprite {
 
     private void resetCurrentAnimationPos(){
         currentAnimation.setPosition(getCenteredX(), getCenteredY());
+    }
+
+    private void resetCurrentColliderPos(){
+        bodyCollider.setPosition(getCenteredX() + bodyCollider.getRelativeXPos(), getCenteredY() +
+            bodyCollider.getRelativeYPos());
+
+        hitCollider.setPosition(getCenteredX() + hitCollider.getRelativeXPos(), getCenteredY() +
+            hitCollider.getRelativeYPos());
     }
 
 
@@ -339,7 +355,7 @@ public class MyCharacter extends MyCenteredSprite {
 
         isOnFloor = !(bodyCollider.getY() + getY() > platform.getY() + platform.getHeight());
         if(bodyCollider.getY() < platform.getFloorBorder()) {
-            setPosition(getCenteredX(),bodyCollider.getCenteredY() + platform.getFloorBorder());
+            setPosition(getCenteredX(), platform.getFloorBorder());
         }
     }
 

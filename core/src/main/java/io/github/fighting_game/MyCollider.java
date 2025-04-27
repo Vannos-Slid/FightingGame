@@ -1,11 +1,12 @@
 package io.github.fighting_game;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MyCollider extends MyCenteredSprite {
+
+    private float relativeXPos;
+    private float relativeYPos;
 
     //Fields
     private boolean isDisabled;
@@ -13,27 +14,33 @@ public class MyCollider extends MyCenteredSprite {
 
     //Constructors
 
-    MyCollider(float x, float y, int width, int height, boolean boolIsDisabled, boolean boolIsVisible) {
+    MyCollider(float relativeXPos, float relativeYPos, float x, float y, int width, int height, boolean boolIsDisabled, boolean boolIsVisible) {
         super(x, y, width, height, Color.CYAN);
         isDisabled = boolIsDisabled;
         isVisible = boolIsVisible;
     }
 
-    MyCollider(float x, float y, int width, int height, boolean boolIsDisabled) {
-        this(x, y, width, height, boolIsDisabled, false);
+    MyCollider(float relativeXPos, float relativeYPos, float x, float y, int width, int height, boolean boolIsDisabled) {
+        this(relativeXPos, relativeYPos, x, y, width, height, boolIsDisabled, false);
     }
 
-    MyCollider(float x, float y, int width, int height) {
-        this(x, y, width, height, true);
+    MyCollider(float relativeXPos, float relativeYPos, float x, float y, int width, int height) {
+        this(relativeXPos, relativeYPos, x, y, width, height, true);
     }
 
     MyCollider(Collider collider){
-        this(collider.getX(), collider.getY(), collider.getWidth(), collider.getHeight());
+        this(0,0, collider.getX(), collider.getY(), collider.getWidth(), collider.getHeight());
     }
 
-
-
     //Getters
+
+    public float getRelativeXPos() {
+        return relativeXPos;
+    }
+
+    public float getRelativeYPos() {
+        return relativeYPos;
+    }
 
     @Override
     public float getX() {
@@ -44,6 +51,7 @@ public class MyCollider extends MyCenteredSprite {
     public float getY() {
         return super.getY();
     }
+
 
     //Setters
 
