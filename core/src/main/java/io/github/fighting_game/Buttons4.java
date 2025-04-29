@@ -40,20 +40,6 @@ public class Buttons4 extends TextureObjectP {
         this(0, 0, width, height, strTexturePath);
     }
 
-    public void setPosition(float x, float y) {
-        super.setPosition(x, y);
-
-        upButton.setPosition(getX() + (float) getWidth() / 3,
-            getY () + (float) getHeight() * 2 / 3);
-
-        downButton.setPosition(getX() + (float) getWidth() / 3, getY());
-
-        leftButton.setPosition(getX(), getY () + (float) getHeight() / 3);
-
-        rightButton.setPosition(getX() + (float) getWidth() * 2 / 3,
-            getY () + (float) getHeight() / 3);
-    }
-
     @Override
     public void setX(float x) {
         super.setX(x);
@@ -78,6 +64,12 @@ public class Buttons4 extends TextureObjectP {
         leftButton.setY(getY () + (float) getHeight() / 3);
 
         rightButton.setY(getY () + (float) getHeight() / 3);
+    }
+
+    @Override
+    public void setPosition(float x, float y) {
+        setX(x);
+        setY(y);
     }
 
     public boolean is_down_pressed() {

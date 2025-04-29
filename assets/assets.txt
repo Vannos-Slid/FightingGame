@@ -99,7 +99,15 @@ Levels/The Balcony/torch_with_no_flame.png
 Levels/The Balcony/wall_1.png
 LifeBar/lifeBar1.png
 LifeBar/lifebar.png
-data/UI-skins/uiskin.json
+data/UI-skins/Test Skin/button.atlas
+data/UI-skins/Test Skin/button.json
+data/UI-skins/Test Skin/button.png
+data/UI-skins/skin/arcade-ui.atlas
+data/UI-skins/skin/arcade-ui.json
+data/UI-skins/skin/arcade-ui.png
+data/UI-skins/skin/font-export.fnt
+data/UI-skins/skin/screen-export.fnt
+data/UI-skins/skin/title-export.fnt
 data/animationStats.json
 data/colliders.json
 data/controler.json

@@ -99,6 +99,7 @@ Levels/The Balcony/torch_with_no_flame.png
 Levels/The Balcony/wall_1.png
 LifeBar/lifeBar1.png
 LifeBar/lifebar.png
+data/UI-skins/button.json
 data/UI-skins/uiskin.json
 data/animationStats.json
 data/colliders.json

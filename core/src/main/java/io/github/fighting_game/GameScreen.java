@@ -40,8 +40,6 @@ public class GameScreen implements Screen, InputProcessor {
     private MyCharacter lCharacter;
     private MyCharacter rCharacter;
 
-    private MyCenteredSprite myCenteredSprite;
-
     private Platform platform;
 
     private ControlButtons controlButtons;
@@ -49,6 +47,25 @@ public class GameScreen implements Screen, InputProcessor {
     private HealthBar healthBarLeft;
     private HealthBar healthBarRight;
 
+    @Override
+    public void dispose() {
+        stage.dispose();
+
+        batch.dispose();
+
+        platform.dispose();
+
+        leftCharacter.dispose();
+        rightCharacter.dispose();
+
+        lCharacter.dispose();
+        rCharacter.dispose();
+
+        controlButtons.dispose();
+
+        healthBarRight.dispose();
+        healthBarLeft.dispose();
+    }
 
     //Initiation
 
@@ -238,28 +255,6 @@ public class GameScreen implements Screen, InputProcessor {
     @Override
     public void hide() {
 
-    }
-
-    @Override
-    public void dispose() {
-        stage.dispose();
-
-        batch.dispose();
-
-        platform.dispose();
-
-        leftCharacter.dispose();
-        rightCharacter.dispose();
-
-        lCharacter.dispose();
-        rCharacter.dispose();
-
-        controlButtons.dispose();
-
-        healthBarRight.dispose();
-        healthBarLeft.dispose();
-
-        myCenteredSprite.dispose();
     }
 
     // Button methods
