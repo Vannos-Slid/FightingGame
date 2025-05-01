@@ -1,0 +1,36 @@
+{
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+	default: {
+		up: square
+	}
+	button_hb: {
+		up: triangle
+	}
+	button_llb: {
+		up: cross
+	}
+	button_hlb: {
+		up: circle
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Touchpad$TouchpadStyle: {
+	default: {
+		background: ditections_white
+	}
+	ps-like: {
+		background: tochpad_white
+	}
+	black: {
+		background: directions
+	}
+	ps-like_black: {
+		background: game
+	}
+	punches_b: {
+		background: punches_2
+	}
+	punches: {
+		background: punches_white
+	}
+}
+}

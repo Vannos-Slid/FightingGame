@@ -201,7 +201,8 @@ com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.Touchpad$TouchpadStyle: {
 	default: {
-		background: joystick
+		background: joystick-bg
+        knob: joystick
 	}
 	red: {
 		background: joystick-red

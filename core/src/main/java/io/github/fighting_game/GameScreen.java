@@ -4,11 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -47,6 +50,12 @@ public class GameScreen implements Screen, InputProcessor {
     private HealthBar healthBarLeft;
     private HealthBar healthBarRight;
 
+    //Controller
+    private Skin controllerSkin;
+
+    private Touchpad directionsTouchpad;
+    private Touchpad punchesTouchpad;
+
     @Override
     public void dispose() {
         stage.dispose();
@@ -78,7 +87,7 @@ public class GameScreen implements Screen, InputProcessor {
 
         try{
             lCharacter = new MyCharacter("Scorpion");
-            lCharacter.setPosition(leftCharacter.getCenteredX(), leftCharacter.getCenteredY());
+            lCharacter.setPosition(platform.getX() + 500, platform.getY() + 80);
             lCharacter.showColliders(true);
         }
         catch (Exception e){
@@ -135,9 +144,23 @@ public class GameScreen implements Screen, InputProcessor {
         healthBarRight = new HealthBar(100, 0, 0, "LifeBar/lifeBar1.png",
             true);
 
+        //Load controller
+        controllerSkin = new Skin(Gdx.files.internal("data/UI-skins/Controller/Controller.json"));
+
+        directionsTouchpad = new Touchpad(10, controllerSkin.get("default",
+            Touchpad.TouchpadStyle.class));
+        punchesTouchpad = new Touchpad(10, controllerSkin.get("punches",
+            Touchpad.TouchpadStyle.class));
+
+        directionsTouchpad.setBounds(400,25,100,100);
+        punchesTouchpad.setBounds(785,25,100,100);
+
         //Create batch
         batch = new SpriteBatch();
         stage = new Stage(viewport, batch);
+
+        stage.addActor(directionsTouchpad);
+        stage.addActor(punchesTouchpad);
 
         multiplexer = new InputMultiplexer();
 
@@ -187,6 +210,9 @@ public class GameScreen implements Screen, InputProcessor {
 
         batchWork(delta);
 
+        stage.act(delta);
+        stage.draw();
+
     }
 
     private void batchWork(float delta){
@@ -209,7 +235,6 @@ public class GameScreen implements Screen, InputProcessor {
 
             System.out.println(leftCharacter.getCenteredX() + '\n' + lCharacter.getCenteredX());
             lCharacter.render(batch, delta);
-
 
         }
 

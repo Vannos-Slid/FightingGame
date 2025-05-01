@@ -99,6 +99,9 @@ Levels/The Balcony/torch_with_no_flame.png
 Levels/The Balcony/wall_1.png
 LifeBar/lifeBar1.png
 LifeBar/lifebar.png
+data/UI-skins/Test Skin/TouchPad/touchpad.atlas
+data/UI-skins/Test Skin/TouchPad/touchpad.json
+data/UI-skins/Test Skin/TouchPad/touchpad.png
 data/UI-skins/Test Skin/button.atlas
 data/UI-skins/Test Skin/button.json
 data/UI-skins/Test Skin/button.png
