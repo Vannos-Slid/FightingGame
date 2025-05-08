@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.tommyettinger.textra.Font;
+import com.github.tommyettinger.textra.Styles;
 import com.github.tommyettinger.textra.TypingLabel;
 
 
@@ -57,11 +58,9 @@ public class GameScreen implements Screen, InputProcessor {
     //Labels
     private MyLabel lCharLabel;
 
-    //Fonts
-    private Font myFont;
-
-    //Skins
-    private Skin skin;
+    //Label
+    TypingLabel myLeftLabel;
+    TypingLabel myRightLabel;
 
     @Override
     public void dispose() {
@@ -84,8 +83,6 @@ public class GameScreen implements Screen, InputProcessor {
 
         myController.dispose();
 
-        myFont.dispose();
-        skin.dispose();
     }
 
     //Initiation
@@ -177,32 +174,19 @@ public class GameScreen implements Screen, InputProcessor {
         batch = new SpriteBatch();
         stage = new Stage(viewport, batch);
 
-        myFont = MySimplerMethods.generateDefaultFont();
+        Styles.LabelStyle textraStyle = MySimplerMethods.generateDefaultTetraStyle2();
 
-        skin = new Skin(Gdx.files.internal("data/UI-skins/Fonts/mk3FontSkin.json"));
+        myLeftLabel = new TypingLabel("[/]Scorpion",(textraStyle));
+        myLeftLabel.skipToTheEnd();
 
-        BitmapFont bitmapFont = skin.get("default", BitmapFont.class);
-
-        myFont = new Font(bitmapFont);
-
-        com.github.tommyettinger.textra.Styles.LabelStyle textraStyle = null;
-
-        textraStyle = new com.github.tommyettinger.textra.Styles.LabelStyle(myFont, bitmapFont.getColor());
-
-//        TypingLabel label = new TypingLabel("Lent's roll", skin, "default");
-
-        TypingLabel label1 = new TypingLabel("Gay",(textraStyle));
-
-
-        label1.setPosition(healthBarLeft.getX() + 100, healthBarRight.getY());
-
-//        stage.addActor(directionsTouchpad);
-//        stage.addActor(punchesTouchpad);
+        myRightLabel = new TypingLabel("[/]Scorpion",(textraStyle));
+        myRightLabel.skipToTheEnd();
 
         stage.addActor(myController.getDirectionsTouchpad());
         stage.addActor(myController.getPunchesTouchpad());
 //        stage.addActor(lCharLabel);
-        stage.addActor(label1);
+        stage.addActor(myLeftLabel);
+        stage.addActor(myRightLabel);
 
         multiplexer = new InputMultiplexer();
 
@@ -247,7 +231,7 @@ public class GameScreen implements Screen, InputProcessor {
         healthBarLeft.setPosition(camera.position.x - 150, camera.position.y + 105);
         healthBarRight.setPosition(camera.position.x + 150, camera.position.y + 105);
 
-        lCharLabel.setPosition(healthBarLeft.getX() + 10, healthBarLeft.getY() + 9);
+//        lCharLabel.setPosition(healthBarLeft.getX() + 10, healthBarLeft.getY() + 9);
 
         batch.setProjectionMatrix(camera.combined);
 
@@ -295,6 +279,12 @@ public class GameScreen implements Screen, InputProcessor {
 
         healthBarLeft.render(batch, camera);
         healthBarRight.render(batch, camera);
+
+        myLeftLabel.setPosition(healthBarLeft.getX() + 10, healthBarLeft.getY() + 6);
+
+        myRightLabel.setPosition(healthBarRight.getX() + healthBarRight.getWidth() -
+                myRightLabel.getWidth() - 10, healthBarLeft.getY() + 6);
+
 
 //        if (controlButtons.directionButtons.isUpPressed){
 //            leftCharacter.setPosition(platform.getX() + 500, platform.getY() + 80);

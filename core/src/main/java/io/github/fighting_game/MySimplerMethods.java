@@ -6,9 +6,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.github.tommyettinger.textra.Font;
+import com.github.tommyettinger.textra.Styles;
 
 public class MySimplerMethods {
 
@@ -114,11 +116,11 @@ public class MySimplerMethods {
 
     public static Font generateDefaultFont(){
         FreeTypeFontGenerator generator =
-            new FreeTypeFontGenerator(Gdx.files.internal("data/fonts/Mortal Kombat 3 Regular.ttf"));
+            new FreeTypeFontGenerator(Gdx.files.internal("data/UI-skins/Fonts/mortalkombat3.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter =
             new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        parameter.size = 16;
+        parameter.size = 13;
         parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS;
 
         BitmapFont bitmapFont = generator.generateFont(parameter);
@@ -128,6 +130,48 @@ public class MySimplerMethods {
         generator.dispose();
 
         return font;
+    }
+
+    public static com.github.tommyettinger.textra.Styles.LabelStyle generateDefaultTetraStyle2(){
+        return new Styles.LabelStyle(generateDefaultFont(), Color.WHITE);
+    }
+
+    // AI-generated - not needed so far
+    public static Styles.LabelStyle generateDefaultTetraStyle() {
+        try {
+//            FreeTypeFontGenerator generator =
+//                new FreeTypeFontGenerator(Gdx.files.internal("data/UI-skins/Fonts/mortalkombat3.ttf"));
+//            FileHandle fontTTFFile = Gdx.files.internal("data/UI-skins/Fonts/mortalkombat3.ttf");
+            FileHandle jsonFile = Gdx.files.internal("data/UI-skins/Fonts/mk3FontSkin.json");
+            FileHandle fontFile = Gdx.files.internal("data/UI-skins/Fonts/mortalkombat3.png");
+            FileHandle textureFile = Gdx.files.internal("data/UI-skins/Fonts/mk3FontSkin.png");
+            if (!jsonFile.exists()) {
+                throw new IllegalStateException("JSON file not found: " + jsonFile.path());
+            }
+            if (!fontFile.exists()) {
+                throw new IllegalStateException("Font file not found: " + fontFile.path());
+            }
+            if (!textureFile.exists()) {
+                throw new IllegalStateException("Texture file not found: " + textureFile.path());
+            }
+
+            Skin skin = new Skin(jsonFile);
+            BitmapFont bitmapFont = skin.get("mortalkombat3", BitmapFont.class);
+            System.out.println("BitmapFont loaded: " + (bitmapFont != null));
+            System.out.println("BitmapFont regions: " + bitmapFont.getRegions().size);
+
+            Font font = new Font(bitmapFont);
+            Styles.LabelStyle style = new Styles.LabelStyle(font, Color.WHITE);
+            System.out.println("TextraStyle created: " + style);
+            return style;
+        } catch (Exception e) {
+            System.err.println("Error in generateDefaultTetraStyle: " + e.getMessage());
+            e.printStackTrace();
+            // Fallback style
+            BitmapFont fallbackFont = new BitmapFont();
+            Font fallbackTextraFont = new Font(fallbackFont);
+            return new Styles.LabelStyle(fallbackTextraFont, Color.WHITE);
+        }
     }
 
     public static Label generateDefaultLabel(String text){

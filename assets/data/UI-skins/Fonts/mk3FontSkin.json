@@ -1,8 +1,8 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
-	default: {
+	mortalkombat3: {
 		file: mortalkombat3.fnt
-		scaledSize: 13
+		scaledSize: -1
 		markupEnabled: false
 		flip: false
 	}
@@ -19,17 +19,6 @@ com.badlogic.gdx.graphics.Color: {
 		g: 1
 		b: 1
 		a: 1
-	}
-}
-com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
-	default: {
-		font: default
-		fontColor: RGBA_255_255_255_255
-	}
-}
-com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
-	default: {
-		label: default
 	}
 }
 }

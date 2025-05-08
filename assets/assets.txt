@@ -106,8 +106,11 @@ data/UI-skins/Controller/Controller2.png
 data/UI-skins/Fonts/mk3FontSkin.atlas
 data/UI-skins/Fonts/mk3FontSkin.json
 data/UI-skins/Fonts/mk3FontSkin.png
+data/UI-skins/Fonts/mk3FontSkin.scmp
 data/UI-skins/Fonts/mortalkombat3.fnt
+data/UI-skins/Fonts/mortalkombat3.png
 data/UI-skins/Fonts/mortalkombat3.ttf
+data/UI-skins/Fonts/square.png
 data/UI-skins/Test Skin/Button/button.atlas
 data/UI-skins/Test Skin/Button/button.json
 data/UI-skins/Test Skin/Button/button.png
