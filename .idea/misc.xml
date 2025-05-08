@@ -3,6 +3,7 @@
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="LibGDXSkins">
     <file url="file://$PROJECT_DIR$/assets/data/UI-skins/Controller/Controller.json" />
+    <file url="file://$PROJECT_DIR$/assets/data/UI-skins/Fonts/mk3FontSkin.json" />
     <file url="file://$PROJECT_DIR$/assets/data/UI-skins/Test Skin/TouchPad/touchpad.json" />
     <file url="file://$PROJECT_DIR$/assets/data/UI-skins/skin/arcade-ui.json" />
   </component>

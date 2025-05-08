@@ -4,16 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.tommyettinger.textra.Font;
+import com.github.tommyettinger.textra.TypingLabel;
 
 
 public class GameScreen implements Screen, InputProcessor {
@@ -32,7 +34,6 @@ public class GameScreen implements Screen, InputProcessor {
     private InputMultiplexer multiplexer;
 
     //Fields
-    private String strSelectedLevel;
     private final float zoomFactor = 0.375f;
 //    private final float scale = 1f;
 
@@ -51,10 +52,16 @@ public class GameScreen implements Screen, InputProcessor {
     private HealthBar healthBarRight;
 
     //Controller
-    private Skin controllerSkin;
+    private MyController myController;
 
-    private Touchpad directionsTouchpad;
-    private Touchpad punchesTouchpad;
+    //Labels
+    private MyLabel lCharLabel;
+
+    //Fonts
+    private Font myFont;
+
+    //Skins
+    private Skin skin;
 
     @Override
     public void dispose() {
@@ -74,6 +81,11 @@ public class GameScreen implements Screen, InputProcessor {
 
         healthBarRight.dispose();
         healthBarLeft.dispose();
+
+        myController.dispose();
+
+        myFont.dispose();
+        skin.dispose();
     }
 
     //Initiation
@@ -82,7 +94,6 @@ public class GameScreen implements Screen, InputProcessor {
         //Load left Player
         leftCharacter = new AnimatedCharacter("Scorpion");
         leftCharacter.setPosition(platform.getX() + 500, platform.getY() + 80);
-        System.out.println(leftCharacter.getCenteredX());
         leftCharacter.showColliders(true);
 
         try{
@@ -112,26 +123,8 @@ public class GameScreen implements Screen, InputProcessor {
         }
     }
 
-    private void init(String strLevelName){
+    private void initUIComponents(){
         int numButtonsSize = 100;
-
-        //Load platform
-        strSelectedLevel = strLevelName;
-//        String strDataPath = "data/maps.json";
-
-        platform = MySimplerMethods.loadPlatform(strSelectedLevel);
-//        if(isValid)
-//            System.out.println("Map has been loaded successfully");
-        int newPlatformX = (WORLD_WIDTH - platform.getWidth())/2;
-        platform.setX(newPlatformX);
-
-        //Set viewport
-        camera = new OrthographicCamera();
-        viewport = new StretchViewport(WORLD_WIDTH * zoomFactor,
-            WORLD_HEIGHT * zoomFactor, camera);
-        viewport.apply();
-
-        charactersInit();
 
         //Load buttons
         controlButtons = new ControlButtons(numButtonsSize, numButtonsSize, numButtonsSize,
@@ -145,22 +138,71 @@ public class GameScreen implements Screen, InputProcessor {
             true);
 
         //Load controller
-        controllerSkin = new Skin(Gdx.files.internal("data/UI-skins/Controller/Controller.json"));
 
-        directionsTouchpad = new Touchpad(10, controllerSkin.get("default",
-            Touchpad.TouchpadStyle.class));
-        punchesTouchpad = new Touchpad(10, controllerSkin.get("punches",
-            Touchpad.TouchpadStyle.class));
+        try{
+            myController = new MyController();
+        }
+        catch (Exception e){
+            System.out.println("There was an error appeared when controller init");
+        }
 
-        directionsTouchpad.setBounds(400,25,100,100);
-        punchesTouchpad.setBounds(785,25,100,100);
+        try{
+            lCharLabel = new MyLabel("Scorpion");
+        }
+        catch (Exception e){
+            System.out.println("There was an error appeared when label init");
+        }
+
+    }
+
+    private void init(String strLevelName){
+        //Load platform
+
+        platform = MySimplerMethods.loadPlatform(strLevelName);
+
+        int newPlatformX = (WORLD_WIDTH - platform.getWidth())/2;
+        platform.setX(newPlatformX);
+
+        //Set viewport
+        camera = new OrthographicCamera();
+        viewport = new StretchViewport(WORLD_WIDTH * zoomFactor,
+            WORLD_HEIGHT * zoomFactor, camera);
+        viewport.apply();
+
+        charactersInit();
+
+        initUIComponents();
 
         //Create batch
         batch = new SpriteBatch();
         stage = new Stage(viewport, batch);
 
-        stage.addActor(directionsTouchpad);
-        stage.addActor(punchesTouchpad);
+        myFont = MySimplerMethods.generateDefaultFont();
+
+        skin = new Skin(Gdx.files.internal("data/UI-skins/Fonts/mk3FontSkin.json"));
+
+        BitmapFont bitmapFont = skin.get("default", BitmapFont.class);
+
+        myFont = new Font(bitmapFont);
+
+        com.github.tommyettinger.textra.Styles.LabelStyle textraStyle = null;
+
+        textraStyle = new com.github.tommyettinger.textra.Styles.LabelStyle(myFont, bitmapFont.getColor());
+
+//        TypingLabel label = new TypingLabel("Lent's roll", skin, "default");
+
+        TypingLabel label1 = new TypingLabel("Gay",(textraStyle));
+
+
+        label1.setPosition(healthBarLeft.getX() + 100, healthBarRight.getY());
+
+//        stage.addActor(directionsTouchpad);
+//        stage.addActor(punchesTouchpad);
+
+        stage.addActor(myController.getDirectionsTouchpad());
+        stage.addActor(myController.getPunchesTouchpad());
+//        stage.addActor(lCharLabel);
+        stage.addActor(label1);
 
         multiplexer = new InputMultiplexer();
 
@@ -199,20 +241,19 @@ public class GameScreen implements Screen, InputProcessor {
             newCameraPosX + camera.viewportWidth / 1.4 <= platform.getRightBorder())
             camera.position.x = newCameraPosX;
 
-
         camera.viewportWidth = WORLD_WIDTH * zoomFactor + 100;
         camera.update();
 
         healthBarLeft.setPosition(camera.position.x - 150, camera.position.y + 105);
         healthBarRight.setPosition(camera.position.x + 150, camera.position.y + 105);
 
+        lCharLabel.setPosition(healthBarLeft.getX() + 10, healthBarLeft.getY() + 9);
+
         batch.setProjectionMatrix(camera.combined);
 
-        batchWork(delta);
-
         stage.act(delta);
+        batchWork(delta);
         stage.draw();
-
     }
 
     private void batchWork(float delta){
@@ -228,7 +269,10 @@ public class GameScreen implements Screen, InputProcessor {
 //
 //        leftCharacter.collideWithEnemy(rightCharacter);
 
+
         if(lCharacter != null){
+            float touchpadKnobPercentX = myController.getDirectionsTouchpad().getKnobPercentX();
+            float touchpadKnobPercentY = myController.getPunchesTouchpad().getKnobPercentY();
 
             lCharacter.movement(false,false,false,false,
                 platform, rCharacter);

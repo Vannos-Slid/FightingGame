@@ -359,6 +359,10 @@ public class MyCharacter extends MyCenteredSprite {
         }
     }
 
+    public void movement(float xDirection, float yDirection){
+//        movement();
+    }
+
     public void process(boolean isRightPressed, boolean isUpPressed, boolean isLeftPressed,
                         boolean isDownPressed){
 

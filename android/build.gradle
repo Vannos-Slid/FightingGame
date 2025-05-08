@@ -60,14 +60,15 @@ repositories {
 configurations { natives }
 
 dependencies {
-  implementation 'androidx.appcompat:appcompat:1.6.1'
+  implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'com.google.android.material:material:1.12.0'
-    implementation 'androidx.activity:activity:1.9.2'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
-  implementation "androidx.core:core:1.13.1"
+    implementation 'androidx.activity:activity:1.10.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
+  implementation 'androidx.core:core:1.16.0'
   implementation "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
   implementation project(':core')
+  implementation "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-arm64-v8a" // Нативна бібліотека
 
   natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
   natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
@@ -113,7 +114,7 @@ tasks.register('run', Exec) {
   if (localProperties.exists()) {
     Properties properties = new Properties()
     localProperties.withInputStream { instr ->
-      properties.load(instr)
+      properties.load(instr)r
     }
     def sdkDir = properties.getProperty('sdk.dir')
     if (sdkDir) {

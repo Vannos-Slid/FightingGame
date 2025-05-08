@@ -2,8 +2,13 @@ package io.github.fighting_game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.github.tommyettinger.textra.Font;
 
 public class MySimplerMethods {
 
@@ -56,18 +61,80 @@ public class MySimplerMethods {
         return new Platform("Null");
     }
 
-    private static String createPlatformTexturePath(String strLevelName, String textureName){
+    public static String createPlatformTexturePath(String strLevelName, String textureName){
         if(textureName == null)
             return "Null";
         return  "Levels/" + strLevelName + "/" + textureName + ".png";
     }
 
-    private static String[] createAnimationPath(String characterName, String[] frameNames){
+    public static String[] createAnimationPath(String characterName, String[] frameNames){
         String[] frames = new String[frameNames.length];
         for(int i = 0; i < frameNames.length; i++){
             frames[i] = "Characters/" + characterName + "/Default/" +
                 frameNames[i] + ".png";
         }
         return frames;
+    }
+
+//    public static  Label.LabelStyle generateDefaultLabelStyle(){
+//        Label.LabelStyle labelStyle = new Label.LabelStyle();
+//
+//        BitmapFont bitmapFont =
+//            new BitmapFont(Gdx.files.internal("data/fonts/Mortal Kombat 3 Regular.ttf"));
+//        labelStyle.font = bitmapFont;
+//        labelStyle.fontColor = Color.WHITE;
+//        bitmapFont.dispose();
+//
+//        return labelStyle;
+//    }
+
+    public static  Label.LabelStyle generateDefaultLabelStyle(){
+
+        FreeTypeFontGenerator generator =
+            new FreeTypeFontGenerator(Gdx.files.internal("data/fonts/Mortal Kombat 3 Regular.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter =
+            new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        parameter.size = 9;
+        parameter.borderWidth = 1;
+
+        parameter.color = Color.WHITE;
+//        parameter.shadowOffsetX = 3;
+//        parameter.shadowOffsetY = 3;
+        parameter.shadowColor = new Color(0,0.5f, 0,0.75f);
+
+        BitmapFont bitmapFont = generator.generateFont(parameter);
+        generator.dispose();
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = bitmapFont;
+
+        return labelStyle;
+    }
+
+    public static Font generateDefaultFont(){
+        FreeTypeFontGenerator generator =
+            new FreeTypeFontGenerator(Gdx.files.internal("data/fonts/Mortal Kombat 3 Regular.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter =
+            new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        parameter.size = 16;
+        parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS;
+
+        BitmapFont bitmapFont = generator.generateFont(parameter);
+
+        Font font = new Font(bitmapFont);
+
+        generator.dispose();
+
+        return font;
+    }
+
+    public static Label generateDefaultLabel(String text){
+        return new Label(text, generateDefaultLabelStyle());
+    }
+
+    public static Label generateDefaultLabel(){
+        return  generateDefaultLabel("Hello LibGDX");
     }
 }
