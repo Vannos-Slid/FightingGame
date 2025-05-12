@@ -29,12 +29,13 @@ public class TestScreen implements Screen {
 
     private Skin touchpadSkin;
 
-
+    private MyStatistic statistic;
 
     @Override
     public void dispose() {
         stage.dispose();
         skin.dispose();
+        touchpadSkin.dispose();
     }
 
     private void init(){
@@ -57,9 +58,13 @@ public class TestScreen implements Screen {
        testButton.setPosition(Gdx.graphics.getWidth()-150,50);
        testButton.setSize(100, 100);
 
+       statistic = new MyStatistic();
+       statistic.setPosition(600,200);
+
        //Adding Controller stuff to the screen
         stage.addActor(testButton);
         stage.addActor(touchpad);
+        stage.addActor(statistic);
 
         testButton.addListener(new ClickListener() {
             @Override
@@ -84,6 +89,8 @@ public class TestScreen implements Screen {
         System.out.println("TouchPad X: " + touchpadKnobPercentX + '\n' + "TouchPad Y: " +
             touchpadKnobPercentY + '\n');
 
+        statistic.setStats(touchpad);
+
         stage.act(delta);
         stage.draw();
     }
@@ -107,7 +114,6 @@ public class TestScreen implements Screen {
     public void resize(int width, int height) {
 
     }
-
 
     @Override
     public void show() {

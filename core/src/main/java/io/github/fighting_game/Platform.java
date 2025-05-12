@@ -184,6 +184,7 @@ public class Platform extends TextureObjectP {
     }
 
     public float getRightWall(){
+        System.out.println(getX() + getWidth() - rightWall - rightBorder);
         return getX() + getWidth() - rightWall - rightBorder;
     }
 

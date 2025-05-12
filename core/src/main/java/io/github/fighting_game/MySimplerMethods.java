@@ -114,13 +114,13 @@ public class MySimplerMethods {
         return labelStyle;
     }
 
-    public static Font generateDefaultFont(){
+    public static Font generateFont(int fontSize){
         FreeTypeFontGenerator generator =
             new FreeTypeFontGenerator(Gdx.files.internal("data/UI-skins/Fonts/mortalkombat3.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter =
             new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        parameter.size = 13;
+        parameter.size = fontSize;
         parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS;
 
         BitmapFont bitmapFont = generator.generateFont(parameter);
@@ -132,7 +132,15 @@ public class MySimplerMethods {
         return font;
     }
 
-    public static com.github.tommyettinger.textra.Styles.LabelStyle generateDefaultTetraStyle2(){
+    public static Font generateDefaultFont(){
+        return generateFont(13);
+    }
+
+    public static Styles.LabelStyle generateTetraStyle(int fontSize){
+        return new Styles.LabelStyle(generateFont(fontSize), Color.WHITE);
+    }
+
+    public static Styles.LabelStyle generateDefaultTetraStyle2(){
         return new Styles.LabelStyle(generateDefaultFont(), Color.WHITE);
     }
 

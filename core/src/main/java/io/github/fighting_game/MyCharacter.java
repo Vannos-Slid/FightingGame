@@ -1,6 +1,7 @@
 package io.github.fighting_game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,6 +131,10 @@ public class MyCharacter extends MyCenteredSprite {
         return hitCollider;
     }
 
+    public String getName() {
+        return name;
+    }
+
     //TEST
     public MyAnimation getCurrentAnimation() {
         return currentAnimation;
@@ -209,26 +214,28 @@ public class MyCharacter extends MyCenteredSprite {
     }
 
     public void moveLeft(Platform platform, MyCharacter enemyChar) {
-        move(platform, enemyChar, false, -2, 3);
+        move(platform, enemyChar, false, -1.5f, 2);
     }
 
     public void  moveRight(Platform platform, MyCharacter enemyChar) {
-        move(platform, enemyChar, true, 3, -2);
+        move(platform, enemyChar, true, 2, -1.5f);
     }
 
     private void move(Platform platform, MyCharacter enemyChar, boolean toRight,
                       float pushValueLeft, float pushValueLRight) {
 
-        float newPos = bodyCollider.getCenteredX() + getCenteredX() +
+        float newColliderBorderPos = bodyCollider.getCenteredX() +
             (toRight? 1 : -1) * (float) bodyCollider.getWidth() / 2 +
             (isLeft ? pushValueLeft : pushValueLRight);
 
-        if((toRight? newPos <= platform.getRightWall() : newPos >= platform.getLeftWall()) &&
-            (isLeft? newPos <= enemyChar.getBodyCollider().getX() +
-                enemyChar.getCenteredX() : newPos >= enemyChar.getBodyCollider().getX() +
+        if((toRight? newColliderBorderPos <= platform.getRightWall() : newColliderBorderPos >= platform.getLeftWall()) &&
+            (isLeft? newColliderBorderPos <= enemyChar.getBodyCollider().getX() :
+                newColliderBorderPos >= enemyChar.getBodyCollider().getX() +
                 (toRight? -1 : 1) * enemyChar.getCenteredX()))
 
             setPosition(getCenteredX() + (isLeft ? pushValueLeft : pushValueLRight), getCenteredY());
+
+//        setPosition(getCenteredX() + (isLeft ? pushValueLeft : pushValueLRight), getCenteredY());
     }
 
     public void moveDown(Platform platform, MyCharacter enemyChar) {
@@ -323,6 +330,41 @@ public class MyCharacter extends MyCenteredSprite {
         return true;
     }
 
+    public void punch(boolean isRightPressed, boolean isUpPressed, boolean isLeftPressed,
+                      boolean isDownPressed){
+
+        if(isStunned){
+            if(currentAnimation.getName().equals("hit_stun") && currentAnimation.is_finished())
+                reset();
+            else if (!tryResetAnimations()) return;
+
+        }
+
+        if(isDownPressed){
+            punchesBuffer.append("3");
+        }
+        if(isRightPressed){
+            punchesBuffer.append("4");
+        } else if (isUpPressed) {
+            punchesBuffer.append("2");
+        } else if (isLeftPressed) {
+           punchesBuffer.append("1");
+        }
+    }
+
+    public void punch(float xDirection, float yDirection){
+        if (xDirection == 0f && yDirection == 0f)
+            punch(false,false,false,false);
+        else {
+            boolean isRightPressed = xDirection > 0.3f;
+            boolean isLeftPressed = xDirection < -0.3f;
+            boolean isUpPressed = yDirection > 0.3f;
+            boolean isDownPressed = yDirection < -0.3f;
+
+            punch(isRightPressed, isUpPressed, isLeftPressed, isDownPressed);
+        }
+    }
+
     public void movement(boolean isRightPressed, boolean isUpPressed, boolean isLeftPressed,
                          boolean isDownPressed, Platform platform, MyCharacter enemyChar) {
 
@@ -351,6 +393,7 @@ public class MyCharacter extends MyCenteredSprite {
         } else {
             setState("default");
 //            currentAnimation.flip(flip_h);
+//            currentAnimation.flip(flip_h);
         }
 
         isOnFloor = !(bodyCollider.getY() + getY() > platform.getY() + platform.getHeight());
@@ -359,8 +402,30 @@ public class MyCharacter extends MyCenteredSprite {
         }
     }
 
-    public void movement(float xDirection, float yDirection){
-//        movement();
+    public void movement(float xDirection, float yDirection, Platform platform, MyCharacter enemyChar){
+
+        if (xDirection == 0f && yDirection == 0f)
+            movement(false,false,false,false,
+                platform, enemyChar);
+        else {
+            boolean isRightPressed = xDirection > 0.5f;
+            boolean isLeftPressed = xDirection < -0.5f;
+            boolean isUpPressed = yDirection > 0.5f;
+            boolean isDownPressed = yDirection < -0.3f;
+
+            movement(isRightPressed, isUpPressed, isLeftPressed, isDownPressed, platform, enemyChar);
+        }
+    }
+
+    public void movement(Touchpad touchpad, Platform platform, MyCharacter enemyChar){
+        float knobPercentX = touchpad.getKnobPercentX();
+        float knobPercentY = touchpad.getKnobPercentY();
+
+        movement(knobPercentX, knobPercentY, platform, enemyChar);
+    }
+
+    public void movement(MyController controller, Platform platform, MyCharacter enemyChar){
+        movement(controller.getDirectionsTouchpad(), platform, enemyChar);
     }
 
     public void process(boolean isRightPressed, boolean isUpPressed, boolean isLeftPressed,
@@ -375,6 +440,30 @@ public class MyCharacter extends MyCenteredSprite {
         else return;
     }
 
+    public void process(float xDirection, float yDirection){
+        if (xDirection == 0f && yDirection == 0f)
+            process(false,false,false,false);
+        else {
+            boolean isRightPressed = xDirection > 0.5f;
+            boolean isLeftPressed = xDirection < -0.5f;
+            boolean isUpPressed = yDirection > 0.5f;
+            boolean isDownPressed = yDirection < -0.3f;
+
+            process(isRightPressed, isUpPressed, isLeftPressed, isDownPressed);
+        }
+    }
+
+    public void process(Touchpad touchpad){
+        float knobPercentX = touchpad.getKnobPercentX();
+        float knobPercentY = touchpad.getKnobPercentY();
+
+        process(knobPercentX, knobPercentY);
+    }
+
+    public void process(MyController controller){
+        process(controller.getPunchesTouchpad());
+    }
+
     private boolean isAnimationValid(String moveName){
         if(moveName == null || moveName.isEmpty()) return false;
         MyAnimation newAnimation = animationTree.animationMap.get(moveName);
@@ -383,16 +472,16 @@ public class MyCharacter extends MyCenteredSprite {
         return newAnimation != null && newBodyCollider != null && newHitCollider != null;
     }
 
-    public void tryComboAttempt(Buttons4 directionButtons, Buttons4 punchesButtons) {
+    public void tryComboAttempt(MyController controller) {
         String moveName = null;
         if (punchesBuffer.length() == 1) {
             if (isCrouching){
                 moveName = animationTree.moveSetMap.get("D" + punchesBuffer.toString());
             }
-            else if(directionButtons.isLeftPressed){
+            else if(controller.getDirectionsTouchpad().getKnobPercentX() < -0.3f){
                 moveName = animationTree.moveSetMap.get(flip_h ? "B" : "F" + punchesBuffer.toString());
             }
-            else if(directionButtons.isRightPressed){
+            else if(controller.getDirectionsTouchpad().getKnobPercentX() > 0.3f){
                 moveName = animationTree.moveSetMap.get(flip_h ? "F" : "B" + punchesBuffer.toString());
             }
             if(!isAnimationValid(moveName))

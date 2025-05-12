@@ -56,12 +56,10 @@ public class GameScreen implements Screen, InputProcessor {
     private MyController myController;
 
     //Labels
-    private MyLabel lCharLabel;
+    private MyStatistic statistic;
+    private  MyStatistic punchesStatistic;
 
-    //Label
-    TypingLabel myLeftLabel;
-    TypingLabel myRightLabel;
-
+    //Free The Memory
     @Override
     public void dispose() {
         stage.dispose();
@@ -128,11 +126,11 @@ public class GameScreen implements Screen, InputProcessor {
             numButtonsSize, leftCharacter);
 
         //Load health bars
-        healthBarLeft = new HealthBar(100, 0, 0, "LifeBar/lifeBar1.png",
-            false);
+        healthBarLeft = new HealthBar(lCharacter.getName(),100, 0, 0,
+            "LifeBar/lifeBar1.png", false);
 
-        healthBarRight = new HealthBar(100, 0, 0, "LifeBar/lifeBar1.png",
-            true);
+        healthBarRight = new HealthBar(rCharacter.getName(),100, 0, 0,
+            "LifeBar/lifeBar1.png", true);
 
         //Load controller
 
@@ -143,13 +141,8 @@ public class GameScreen implements Screen, InputProcessor {
             System.out.println("There was an error appeared when controller init");
         }
 
-        try{
-            lCharLabel = new MyLabel("Scorpion");
-        }
-        catch (Exception e){
-            System.out.println("There was an error appeared when label init");
-        }
-
+        statistic = new MyStatistic();
+        punchesStatistic = new MyStatistic();
     }
 
     private void init(String strLevelName){
@@ -166,35 +159,30 @@ public class GameScreen implements Screen, InputProcessor {
             WORLD_HEIGHT * zoomFactor, camera);
         viewport.apply();
 
+        //Init the characters
         charactersInit();
 
+        //Init UI elements
         initUIComponents();
 
         //Create batch
         batch = new SpriteBatch();
         stage = new Stage(viewport, batch);
 
-        Styles.LabelStyle textraStyle = MySimplerMethods.generateDefaultTetraStyle2();
+        //Add UI components
+        if (myController != null){
+            stage.addActor(myController.getDirectionsTouchpad());
+            stage.addActor(myController.getPunchesTouchpad());
+        }
+        stage.addActor(statistic);
+        stage.addActor(punchesStatistic);
 
-        myLeftLabel = new TypingLabel("[/]Scorpion",(textraStyle));
-        myLeftLabel.skipToTheEnd();
-
-        myRightLabel = new TypingLabel("[/]Scorpion",(textraStyle));
-        myRightLabel.skipToTheEnd();
-
-        stage.addActor(myController.getDirectionsTouchpad());
-        stage.addActor(myController.getPunchesTouchpad());
-//        stage.addActor(lCharLabel);
-        stage.addActor(myLeftLabel);
-        stage.addActor(myRightLabel);
-
+        //Combine stages to make sensor touch
         multiplexer = new InputMultiplexer();
-
         multiplexer.addProcessor(stage);
         multiplexer.addProcessor(this);
 
 //        Gdx.input.setInputProcessor(this);
-
         Gdx.input.setInputProcessor(multiplexer);
     }
 
@@ -231,8 +219,6 @@ public class GameScreen implements Screen, InputProcessor {
         healthBarLeft.setPosition(camera.position.x - 150, camera.position.y + 105);
         healthBarRight.setPosition(camera.position.x + 150, camera.position.y + 105);
 
-//        lCharLabel.setPosition(healthBarLeft.getX() + 10, healthBarLeft.getY() + 9);
-
         batch.setProjectionMatrix(camera.combined);
 
         stage.act(delta);
@@ -255,20 +241,26 @@ public class GameScreen implements Screen, InputProcessor {
 
 
         if(lCharacter != null){
-            float touchpadKnobPercentX = myController.getDirectionsTouchpad().getKnobPercentX();
-            float touchpadKnobPercentY = myController.getPunchesTouchpad().getKnobPercentY();
 
-            lCharacter.movement(false,false,false,false,
-                platform, rCharacter);
+            float touchpadKnobPercentXPunch = myController.getPunchesTouchpad().getKnobPercentX();
+            float touchpadKnobPercentYPunch = myController.getPunchesTouchpad().getKnobPercentY();
 
-            System.out.println(leftCharacter.getCenteredX() + '\n' + lCharacter.getCenteredX());
+            float touchpadKnobPercentXDir = myController.getDirectionsTouchpad().getKnobPercentX();
+            float touchpadKnobPercentYDir = myController.getDirectionsTouchpad().getKnobPercentY();
+
+
+            lCharacter.movement(touchpadKnobPercentXDir, touchpadKnobPercentYDir, platform, rCharacter);
+//            lCharacter.movement(false,false,false,false,
+//                platform, rCharacter);
+
             lCharacter.render(batch, delta);
 
         }
 
         if(rCharacter != null){
+
             rCharacter.movement(false,false,false,false,
-                platform, lCharacter);
+                platform, rCharacter);
 
             rCharacter.render(batch, delta);
 
@@ -280,16 +272,16 @@ public class GameScreen implements Screen, InputProcessor {
         healthBarLeft.render(batch, camera);
         healthBarRight.render(batch, camera);
 
-        myLeftLabel.setPosition(healthBarLeft.getX() + 10, healthBarLeft.getY() + 6);
-
-        myRightLabel.setPosition(healthBarRight.getX() + healthBarRight.getWidth() -
-                myRightLabel.getWidth() - 10, healthBarLeft.getY() + 6);
-
-
 //        if (controlButtons.directionButtons.isUpPressed){
 //            leftCharacter.setPosition(platform.getX() + 500, platform.getY() + 80);
 //            rightCharacter.setPosition(platform.getX() + 700, platform.getY() + 80);
 //        }
+
+        statistic.setPosition(healthBarLeft.getX(),  healthBarLeft.getY() - 50);
+        statistic.setStats(myController.getDirectionsTouchpad());
+
+        punchesStatistic.setPosition(healthBarRight.getX(),  healthBarRight.getY() - 50);
+        punchesStatistic.setStats(myController.getPunchesTouchpad());
 
         batch.end();
     }

@@ -205,7 +205,7 @@ public class AnimatedCharacter extends TextureObjectCenteredP {
 
     }
 
-    private boolean catTransit(String newMove){
+    private boolean canTransit(String newMove){
         Transition[] transitions = animationTree.transitionMap.get(currentAnimation.getName());
         for (Transition transition:
                 transitions ) {
@@ -276,7 +276,7 @@ public class AnimatedCharacter extends TextureObjectCenteredP {
                 else if(currentAnimation.getName().charAt(0) == 'a') {
                     if(!animationBuffer.isEmpty()){
                         animationBuffer.remove(0);
-                        if (!animationBuffer.isEmpty() && catTransit(animationBuffer.get(0))){
+                        if (!animationBuffer.isEmpty() && canTransit(animationBuffer.get(0))){
                             setState(animationBuffer.get(0));
                         }
                     } else
