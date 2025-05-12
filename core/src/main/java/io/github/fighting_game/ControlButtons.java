@@ -17,6 +17,12 @@ public class ControlButtons {
     private final float timeTillNextInput = 0.2f;
     private float time;
 
+    public void dispose(){
+        directionButtons.dispose();
+        punchesButtons.dispose();
+        animatedCharacter.dispose();
+    }
+
     ControlButtons(int dirWidth, int dirHeight, int punchWidth, int punchHeight,
                    AnimatedCharacter animatedCharacter){
 
@@ -215,11 +221,5 @@ public class ControlButtons {
         animatedCharacter.render(batch, delta);
         directionButtons.render(batch);
         punchesButtons.render(batch);
-    }
-
-    public void dispose(){
-        directionButtons.dispose();
-        punchesButtons.dispose();
-        animatedCharacter.dispose();
     }
 }

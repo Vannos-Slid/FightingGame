@@ -6,17 +6,11 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.tommyettinger.textra.Font;
-import com.github.tommyettinger.textra.Styles;
-import com.github.tommyettinger.textra.TypingLabel;
 
 
 public class GameScreen implements Screen, InputProcessor {
@@ -207,7 +201,7 @@ public class GameScreen implements Screen, InputProcessor {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //Update Camera position
-        float newCameraPosX = (float) (leftCharacter.getCenteredX() + rightCharacter.getCenteredX()) /2;
+        float newCameraPosX = (float) (lCharacter.getCenteredX() + rCharacter.getCenteredX()) /2;
 
         if(newCameraPosX - camera.viewportWidth / 1.4 >= platform.getX() &&
             newCameraPosX + camera.viewportWidth / 1.4 <= platform.getRightBorder())
@@ -218,6 +212,9 @@ public class GameScreen implements Screen, InputProcessor {
 
         healthBarLeft.setPosition(camera.position.x - 150, camera.position.y + 105);
         healthBarRight.setPosition(camera.position.x + 150, camera.position.y + 105);
+
+        myController.setDirButtonsPos(camera.position.x - 250,camera.position.y - 100);
+        myController.setPunchButtonsPos(camera.position.x + 150, camera.position.y - 100);
 
         batch.setProjectionMatrix(camera.combined);
 

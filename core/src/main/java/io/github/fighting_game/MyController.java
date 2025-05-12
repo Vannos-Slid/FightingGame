@@ -22,6 +22,7 @@ public class MyController {
 
             directionsTouchpad.setBounds(400,25,100,100);
             punchesTouchpad.setBounds(785,25,100,100);
+
         }
         catch (Exception e){
             System.out.println("There was an error appeared with buttons init");
@@ -69,8 +70,20 @@ public class MyController {
         this.punchesTouchpad = punchesTouchpad;
     }
 
-    void setZIndex(int index){
+    public void setZIndex(int index){
         directionsTouchpad.setZIndex(index);
         punchesTouchpad.setZIndex(index);
+    }
+
+    public void setPosition(float x, float y){
+
+    };
+
+    public void setDirButtonsPos(float x, float y){
+        directionsTouchpad.setPosition(x, y);
+    }
+
+    public  void setPunchButtonsPos(float x, float y){
+        punchesTouchpad.setPosition(x, y);
     }
 }
