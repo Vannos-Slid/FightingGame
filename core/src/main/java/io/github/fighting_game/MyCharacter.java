@@ -213,27 +213,64 @@ public class MyCharacter extends MyCenteredSprite {
         showColliders(false);
     }
 
-    public void moveLeft(Platform platform, MyCharacter enemyChar) {
-        move(platform, enemyChar, false, -1.5f, 2);
+    public void moveLeft(Platform platform, MyCharacter enemyChar){
+        final float PUSH_FORWARD_OFFSET_X = -2f;
+        final float PUSH_BACK_OFFSET_X = -1.5f;
+
+        float newColliderBorderPos = bodyCollider.getCenteredX() - bodyCollider.getWidth() / 2f +
+            (isLeft ? PUSH_BACK_OFFSET_X : PUSH_FORWARD_OFFSET_X);
+
+        boolean isNotCollidingWithTheBorders = newColliderBorderPos >= platform.getLeftWall();
+
+        boolean isNotCollidingWithEnemy = isLeft? newColliderBorderPos <= enemyChar.getBodyCollider().getX() :
+            newColliderBorderPos >= enemyChar.getBodyCollider().getCenteredX() + enemyChar.getBodyCollider().getWidth() / 2;
+
+        if(isNotCollidingWithTheBorders && isNotCollidingWithEnemy){
+            setPosition(getCenteredX() + (isLeft ? PUSH_BACK_OFFSET_X : PUSH_FORWARD_OFFSET_X), getCenteredY());
+        }
     }
 
-    public void  moveRight(Platform platform, MyCharacter enemyChar) {
-        move(platform, enemyChar, true, 2, -1.5f);
+    public void moveRight(Platform platform, MyCharacter enemyChar){
+        final float PUSH_FORWARD_OFFSET_X = 2f;
+        final float PUSH_BACK_OFFSET_X = 1.5f;
+
+        float newColliderBorderPos = bodyCollider.getCenteredX() + bodyCollider.getWidth() / 2f +
+            (isLeft ? PUSH_FORWARD_OFFSET_X : PUSH_BACK_OFFSET_X);
+
+        boolean isNotCollidingWithTheBorders = newColliderBorderPos <= platform.getRightWall();
+
+        boolean isNotCollidingWithEnemy = isLeft? newColliderBorderPos <= enemyChar.getBodyCollider().getX() :
+            newColliderBorderPos >= enemyChar.getBodyCollider().getCenteredX() + enemyChar.getBodyCollider().getWidth() / 2;
+
+        if(isNotCollidingWithTheBorders && isNotCollidingWithEnemy){
+            setPosition(getCenteredX() + (isLeft ? PUSH_FORWARD_OFFSET_X : PUSH_BACK_OFFSET_X), getCenteredY());
+        }
     }
+
+//    public void moveLeft(Platform platform, MyCharacter enemyChar) {
+//        move(platform, enemyChar, false, -1.5f, 2f);
+//    }
+
+//    public void  moveRight(Platform platform, MyCharacter enemyChar) {
+//        move(platform, enemyChar, true, 2f, -1.5f);
+//    }
 
     private void move(Platform platform, MyCharacter enemyChar, boolean toRight,
-                      float pushValueLeft, float pushValueLRight) {
+                      float pushValueForLeftPos, float pushValueForRightPos) {
 
         float newColliderBorderPos = bodyCollider.getCenteredX() +
             (toRight? 1 : -1) * (float) bodyCollider.getWidth() / 2 +
-            (isLeft ? pushValueLeft : pushValueLRight);
+            (isLeft ? pushValueForLeftPos : pushValueForRightPos);
 
-        if((toRight? newColliderBorderPos <= platform.getRightWall() : newColliderBorderPos >= platform.getLeftWall()) &&
-            (isLeft? newColliderBorderPos <= enemyChar.getBodyCollider().getX() :
-                newColliderBorderPos >= enemyChar.getBodyCollider().getX() +
-                (toRight? -1 : 1) * enemyChar.getCenteredX()))
+        boolean isNotCollidingWithTheBorders = toRight? newColliderBorderPos <= platform.getRightWall() :
+            newColliderBorderPos >= platform.getLeftWall();
 
-            setPosition(getCenteredX() + (isLeft ? pushValueLeft : pushValueLRight), getCenteredY());
+        boolean isNotCollidingWithEnemy = isLeft? newColliderBorderPos <= enemyChar.getBodyCollider().getX() :
+            newColliderBorderPos >= enemyChar.getBodyCollider().getX() +
+                (toRight? -1 : 1) * enemyChar.getBodyCollider().getWidth() / 2;
+
+        if( isNotCollidingWithTheBorders && isNotCollidingWithEnemy)
+            setPosition(getCenteredX() + (isLeft ? pushValueForLeftPos : pushValueForRightPos), getCenteredY());
 
 //        setPosition(getCenteredX() + (isLeft ? pushValueLeft : pushValueLRight), getCenteredY());
     }
@@ -383,17 +420,23 @@ public class MyCharacter extends MyCenteredSprite {
         else isCrouching = false;
 
         if(isRightPressed){
-            setState("forward_walking");
+            if (isLeft) {
+                setState("forward_walking");
+            } else {
+                setState("backward_walking");
+            }
             moveRight(platform, enemyChar);
         } else if (isUpPressed) {
             moveUp(platform, enemyChar);
         } else if (isLeftPressed) {
+            if (isLeft) {
+                setState("backward_walking");
+            } else {
+                setState("forward_walking");
+            }
             moveLeft(platform, enemyChar);
-            setState("backward_walking");
         } else {
             setState("default");
-//            currentAnimation.flip(flip_h);
-//            currentAnimation.flip(flip_h);
         }
 
         isOnFloor = !(bodyCollider.getY() + getY() > platform.getY() + platform.getHeight());

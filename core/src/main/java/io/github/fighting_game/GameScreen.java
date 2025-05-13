@@ -74,12 +74,11 @@ public class GameScreen implements Screen, InputProcessor {
         healthBarLeft.dispose();
 
         myController.dispose();
-
     }
 
     //Initiation
 
-    private void charactersInit(){
+    private void initCharacters(){
         //Load left Player
         leftCharacter = new AnimatedCharacter("Scorpion");
         leftCharacter.setPosition(platform.getX() + 500, platform.getY() + 80);
@@ -154,7 +153,7 @@ public class GameScreen implements Screen, InputProcessor {
         viewport.apply();
 
         //Init the characters
-        charactersInit();
+        initCharacters();
 
         //Init UI elements
         initUIComponents();
@@ -210,11 +209,16 @@ public class GameScreen implements Screen, InputProcessor {
         camera.viewportWidth = WORLD_WIDTH * zoomFactor + 100;
         camera.update();
 
-        healthBarLeft.setPosition(camera.position.x - 150, camera.position.y + 105);
-        healthBarRight.setPosition(camera.position.x + 150, camera.position.y + 105);
+        final float HEALTH_BAR_OFFSET_X = 150F;
+        final float HEALTH_BAR_OFFSET_y = 105F;
 
-        myController.setDirButtonsPos(camera.position.x - 250,camera.position.y - 100);
-        myController.setPunchButtonsPos(camera.position.x + 150, camera.position.y - 100);
+        healthBarLeft.setPosition(camera.position.x - HEALTH_BAR_OFFSET_X,
+            camera.position.y + HEALTH_BAR_OFFSET_y);
+        healthBarRight.setPosition(camera.position.x + HEALTH_BAR_OFFSET_X,
+            camera.position.y + HEALTH_BAR_OFFSET_y);
+
+        myController.setDirButtonsPos(camera.position.x - 250,camera.position.y - 105);
+        myController.setPunchButtonsPos(camera.position.x + 150, camera.position.y - 105);
 
         batch.setProjectionMatrix(camera.combined);
 
@@ -238,33 +242,27 @@ public class GameScreen implements Screen, InputProcessor {
 
 
         if(lCharacter != null){
-
-            float touchpadKnobPercentXPunch = myController.getPunchesTouchpad().getKnobPercentX();
-            float touchpadKnobPercentYPunch = myController.getPunchesTouchpad().getKnobPercentY();
-
-            float touchpadKnobPercentXDir = myController.getDirectionsTouchpad().getKnobPercentX();
-            float touchpadKnobPercentYDir = myController.getDirectionsTouchpad().getKnobPercentY();
-
-
-            lCharacter.movement(touchpadKnobPercentXDir, touchpadKnobPercentYDir, platform, rCharacter);
-//            lCharacter.movement(false,false,false,false,
+            lCharacter.movement(myController, platform, rCharacter);
+//            lCharacter.movement(false,false,true,false,
 //                platform, rCharacter);
 
-            lCharacter.render(batch, delta);
 
+            lCharacter.render(batch, delta);
+            healthBarLeft.setHealth(lCharacter.getHealth());
         }
 
         if(rCharacter != null){
-
             rCharacter.movement(false,false,false,false,
-                platform, rCharacter);
+                platform, lCharacter);
 
             rCharacter.render(batch, delta);
-
+            healthBarRight.setHealth(rCharacter.getHealth());
         }
 
-        healthBarLeft.setHealth(leftCharacter.getHealth());
-        healthBarRight.setHealth(rightCharacter.getHealth());
+        if (myController.getDirectionsTouchpad().getKnobPercentY() > 0.3f){
+            System.out.println("Left character X pos: " + lCharacter.getBodyCollider().getX() + "\n" +
+                "Right character X pos: " + rCharacter.getBodyCollider().getX());
+        }
 
         healthBarLeft.render(batch, camera);
         healthBarRight.render(batch, camera);
@@ -274,10 +272,12 @@ public class GameScreen implements Screen, InputProcessor {
 //            rightCharacter.setPosition(platform.getX() + 700, platform.getY() + 80);
 //        }
 
-        statistic.setPosition(healthBarLeft.getX(),  healthBarLeft.getY() - 50);
+        final float STATISTICS_OFFSET_Y = 50F;
+
+        statistic.setPosition(healthBarLeft.getX(),  healthBarLeft.getY() - STATISTICS_OFFSET_Y);
         statistic.setStats(myController.getDirectionsTouchpad());
 
-        punchesStatistic.setPosition(healthBarRight.getX(),  healthBarRight.getY() - 50);
+        punchesStatistic.setPosition(healthBarRight.getX(),  healthBarRight.getY() - STATISTICS_OFFSET_Y);
         punchesStatistic.setStats(myController.getPunchesTouchpad());
 
         batch.end();
