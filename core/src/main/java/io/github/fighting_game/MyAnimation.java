@@ -18,6 +18,14 @@ public class MyAnimation extends MyCenteredSprite{
     public boolean isAbleToStun;
     private boolean isFinished;
 
+    @Override
+    public void dispose(){
+        super.dispose();
+        for(MyCenteredSprite frame : frames){
+            frame.dispose();
+        }
+    }
+
     public MyAnimation(String name, String[] framePaths, float frameDuration, boolean flip_h,
                                 boolean isReversed, boolean isLooped, boolean isAbleToStun) {
         super(framePaths[0], flip_h);
@@ -148,14 +156,6 @@ public class MyAnimation extends MyCenteredSprite{
         MyCenteredSprite currentFrame = animation.getKeyFrame(stateTime, isLooped);
         currentFrame.draw(batch);
         update(delta);
-    }
-
-    @Override
-    public void dispose(){
-        super.dispose();
-        for(MyCenteredSprite frame : frames){
-            frame.dispose();
-        }
     }
 
 }

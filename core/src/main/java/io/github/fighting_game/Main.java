@@ -18,8 +18,12 @@ public class Main extends Game {
 
     @Override
     public void dispose() {
-        gameScreen.dispose();
-        testScreen.dispose();
+        if (gameScreen != null){
+            gameScreen.dispose();
+        }
+        if (testScreen != null){
+            testScreen.dispose();
+        }
     }
 
     @Override
