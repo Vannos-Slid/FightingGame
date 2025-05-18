@@ -34,7 +34,31 @@ public class HealthBar extends TextureObjectCenteredP{
     }
 
     public HealthBar(float maxHealth, float x, float y, String strTexturePath, boolean flip_h){
-        this("NoName",maxHealth, x, y, strTexturePath, flip_h);
+        this("No Name",maxHealth, x, y, strTexturePath, flip_h);
+    }
+
+    public HealthBar(String name, float maxHealth, float x, float y, boolean flip_h){
+        this(name, maxHealth, x, y, "LifeBar/lifeBar1.png", flip_h);
+    }
+
+    public HealthBar(String name, float maxHealth, float x, float y){
+        this(name,maxHealth, x, y, false);
+    }
+
+    public HealthBar(String name, float maxHealth){
+        this(name, maxHealth, 0, 0);
+    }
+
+    public HealthBar(String name, boolean flip_h){
+        this(name, 100, 0, 0, flip_h);
+    }
+
+    public HealthBar(String name){
+        this(name, 100);
+    }
+
+    public HealthBar(){
+        this("No Name");
     }
 
     public void setHealth(float health){
@@ -71,7 +95,6 @@ public class HealthBar extends TextureObjectCenteredP{
         final float HEALTH_BAR_LABEL_OFFSET_Y = 6f;
 
         if (flip_h) {
-
             label.setPosition(getX() + getWidth() -
                 label.getWidth() - HEALTH_BAR_LABEL_OFFSET_X, getY() + HEALTH_BAR_LABEL_OFFSET_Y);
         } else {

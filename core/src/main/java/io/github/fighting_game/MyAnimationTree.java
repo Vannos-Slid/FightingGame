@@ -144,7 +144,7 @@ public class MyAnimationTree {
         int height = subCollider.getInt("height");
         boolean isDisabled = subCollider.getBoolean("isDisabled");
 
-        return new MyCollider(x,y, x, y, width, height, isDisabled);
+        return new MyCollider(x, y, x, y, width, height, isDisabled);
     }
 
     private void addAnimationNode(JsonValue animation) {

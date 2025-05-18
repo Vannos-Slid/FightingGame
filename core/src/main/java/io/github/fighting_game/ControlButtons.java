@@ -3,6 +3,7 @@ package io.github.fighting_game;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class ControlButtons {
     public Buttons4 directionButtons;

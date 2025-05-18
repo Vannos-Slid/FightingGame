@@ -2,18 +2,17 @@ package io.github.fighting_game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-
-public class GameScreen implements Screen, InputProcessor {
+public class GameScreen implements Screen {
 
     //Screen
     private OrthographicCamera camera;
@@ -29,19 +28,18 @@ public class GameScreen implements Screen, InputProcessor {
     private InputMultiplexer multiplexer;
 
     //Fields
-    private final float zoomFactor = 0.375f;
+    private final float ZOOM_FACTOR = 0.375f;
 //    private final float scale = 1f;
 
+    private final float TIME_TILL_NEXT_INPUT = 0.2f;
+    private float time;
+
     //Graphics
-    private AnimatedCharacter leftCharacter;
-    private AnimatedCharacter rightCharacter;
 
     private MyCharacter lCharacter;
     private MyCharacter rCharacter;
 
     private Platform platform;
-
-    private ControlButtons controlButtons;
 
     private HealthBar healthBarLeft;
     private HealthBar healthBarRight;
@@ -62,13 +60,8 @@ public class GameScreen implements Screen, InputProcessor {
 
         platform.dispose();
 
-        leftCharacter.dispose();
-        rightCharacter.dispose();
-
         lCharacter.dispose();
         rCharacter.dispose();
-
-        controlButtons.dispose();
 
         healthBarRight.dispose();
         healthBarLeft.dispose();
@@ -79,56 +72,92 @@ public class GameScreen implements Screen, InputProcessor {
     //Initiation
 
     private void initCharacters(){
-        //Load left Player
-        leftCharacter = new AnimatedCharacter("Scorpion");
-        leftCharacter.setPosition(platform.getX() + 500, platform.getY() + 80);
-        leftCharacter.showColliders(true);
+        final float CHARACTERS_INIT_POS_X = 500f;
+        final float CHARACTERS_INIT_POS_Y = 80f;
 
+        //Load left Player
         try{
             lCharacter = new MyCharacter("Scorpion");
-            lCharacter.setPosition(platform.getX() + 500, platform.getY() + 80);
+            lCharacter.setPosition(platform.getX() + CHARACTERS_INIT_POS_X,
+                platform.getY() + CHARACTERS_INIT_POS_Y);
             lCharacter.showColliders(true);
         }
         catch (Exception e){
-            System.out.println("LoxL");
+            System.out.println("Error to init the left Character");
         }
 
         //Load right Player
-        rightCharacter = new AnimatedCharacter("Scorpion");
-        rightCharacter.setPosition(platform.getX() + 700, platform.getY() + 80);
-        rightCharacter.switchRight();
-//        rightCharacter.showColliders(true);
-
         try{
             rCharacter = new MyCharacter("Scorpion");
-            rCharacter.setPosition(platform.getX() + 700, platform.getY() + 80);
+            rCharacter.setPosition(platform.getX() + CHARACTERS_INIT_POS_X + 200f,
+                platform.getY() + CHARACTERS_INIT_POS_Y);
             rCharacter.showColliders(true);
             rCharacter.switchRight();
 
         }
         catch (Exception e){
-            System.out.println("LoxR");
+            System.out.println("Error to init the right Character");
+        }
+
+        if (lCharacter != null && rCharacter != null){
+            lCharacter.movement(false,false,false,
+                false, platform, rCharacter);
+            rCharacter.movement(false, false, false,
+                false, platform, lCharacter);
         }
     }
 
     private void initUIComponents(){
-        int numButtonsSize = 100;
-
-        //Load buttons
-        controlButtons = new ControlButtons(numButtonsSize, numButtonsSize, numButtonsSize,
-            numButtonsSize, leftCharacter);
 
         //Load health bars
-        healthBarLeft = new HealthBar(lCharacter.getName(),100, 0, 0,
-            "LifeBar/lifeBar1.png", false);
+        healthBarLeft = new HealthBar(lCharacter.getName(), false);
 
-        healthBarRight = new HealthBar(rCharacter.getName(),100, 0, 0,
-            "LifeBar/lifeBar1.png", true);
+        healthBarRight = new HealthBar(rCharacter.getName(), true);
 
         //Load controller
 
         try{
             myController = new MyController();
+
+            myController.getPunchesTouchpad().addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    lCharacter.punch(myController.getPunchesTouchpad());
+                    return true;
+//                    return super.touchDown(event, x, y, pointer, button);
+                }
+
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    super.touchUp(event, x, y, pointer, button);
+                }
+
+                @Override
+                public void touchDragged(InputEvent event, float x, float y, int pointer) {
+                    super.touchDragged(event, x, y, pointer);
+                }
+            });
+
+            myController.getDirectionsTouchpad().addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    lCharacter.movement(myController.getDirectionsTouchpad(), platform, rCharacter);
+                    return true;
+                }
+
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    lCharacter.movement(false,false,false,
+                        false, platform, rCharacter);
+                    super.touchUp(event, x, y, pointer, button);
+                }
+
+                @Override
+                public void touchDragged(InputEvent event, float x, float y, int pointer) {
+//                    lCharacter.movement(myController.getDirectionsTouchpad(), platform, rCharacter);
+                    super.touchDragged(event, x, y, pointer);
+                }
+            });
         }
         catch (Exception e){
             System.out.println("There was an error appeared when controller init");
@@ -148,8 +177,8 @@ public class GameScreen implements Screen, InputProcessor {
 
         //Set viewport
         camera = new OrthographicCamera();
-        viewport = new StretchViewport(WORLD_WIDTH * zoomFactor,
-            WORLD_HEIGHT * zoomFactor, camera);
+        viewport = new StretchViewport(WORLD_WIDTH * ZOOM_FACTOR,
+            WORLD_HEIGHT * ZOOM_FACTOR, camera);
         viewport.apply();
 
         //Init the characters
@@ -164,19 +193,19 @@ public class GameScreen implements Screen, InputProcessor {
 
         //Add UI components
         if (myController != null){
-            stage.addActor(myController.getDirectionsTouchpad());
-            stage.addActor(myController.getPunchesTouchpad());
+            myController.addToStage(stage);
         }
         stage.addActor(statistic);
         stage.addActor(punchesStatistic);
 
         //Combine stages to make sensor touch
-        multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(stage);
-        multiplexer.addProcessor(this);
+//        multiplexer = new InputMultiplexer();
+//        multiplexer.addProcessor(stage);
+//        multiplexer.addProcessor(this);
 
+        Gdx.input.setInputProcessor(stage);
 //        Gdx.input.setInputProcessor(this);
-        Gdx.input.setInputProcessor(multiplexer);
+//        Gdx.input.setInputProcessor(multiplexer);
     }
 
     GameScreen(String strLevelName) {
@@ -206,7 +235,7 @@ public class GameScreen implements Screen, InputProcessor {
             newCameraPosX + camera.viewportWidth / 1.4 <= platform.getRightBorder())
             camera.position.x = newCameraPosX;
 
-        camera.viewportWidth = WORLD_WIDTH * zoomFactor + 100;
+        camera.viewportWidth = WORLD_WIDTH * ZOOM_FACTOR + 100;
         camera.update();
 
         final float HEALTH_BAR_OFFSET_X = 150F;
@@ -232,20 +261,13 @@ public class GameScreen implements Screen, InputProcessor {
 
         platform.render(batch);
 
-//        rightCharacter.movement(false,false,false,
-//            false, platform, leftCharacter);
-//        rightCharacter.render(batch, delta);
-//
-//        controlButtons.render(batch, delta, camera, platform, rightCharacter);
-//
-//        leftCharacter.collideWithEnemy(rightCharacter);
-
 
         if(lCharacter != null){
             lCharacter.movement(myController, platform, rCharacter);
+            lCharacter.tryComboAttempt(myController);
+            lCharacter.collideWithEnemy(rCharacter);
 //            lCharacter.movement(false,false,true,false,
 //                platform, rCharacter);
-
 
             lCharacter.render(batch, delta);
             healthBarLeft.setHealth(lCharacter.getHealth());
@@ -259,18 +281,8 @@ public class GameScreen implements Screen, InputProcessor {
             healthBarRight.setHealth(rCharacter.getHealth());
         }
 
-        if (myController.getDirectionsTouchpad().getKnobPercentY() > 0.3f){
-            System.out.println("Left character X pos: " + lCharacter.getBodyCollider().getX() + "\n" +
-                "Right character X pos: " + rCharacter.getBodyCollider().getX());
-        }
-
         healthBarLeft.render(batch, camera);
         healthBarRight.render(batch, camera);
-
-//        if (controlButtons.directionButtons.isUpPressed){
-//            leftCharacter.setPosition(platform.getX() + 500, platform.getY() + 80);
-//            rightCharacter.setPosition(platform.getX() + 700, platform.getY() + 80);
-//        }
 
         final float STATISTICS_OFFSET_Y = 50F;
 
@@ -305,74 +317,4 @@ public class GameScreen implements Screen, InputProcessor {
 
     }
 
-    // Button methods
-
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if(leftCharacter == null)
-            return false;
-
-        Vector3 touchPos = new Vector3(screenX, screenY, 0);
-        camera.unproject(touchPos);
-
-        controlButtons.touchDownDir(screenX, screenY, camera);
-        controlButtons.touchDownPunch(screenX, screenY, camera);
-        return true;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if(leftCharacter == null)
-            return false;
-
-        Vector3 touchPos = new Vector3(screenX, screenY, 0);
-        camera.unproject(touchPos);
-
-        controlButtons.touchUpDir(screenX, screenY, camera);
-        controlButtons.touchUpPunch(screenX, screenY, camera);
-        return true;
-    }
-
-    @Override
-    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        if(leftCharacter == null)
-            return false;
-
-        Vector3 touchPos = new Vector3(screenX, screenY, 0);
-        camera.unproject(touchPos);
-
-        controlButtons.touchDraggedDir(screenX, screenY, camera);
-        controlButtons.touchDraggedPunch(screenX, screenY, camera);
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(float amountX, float amountY) {
-        return false;
-    }
 }

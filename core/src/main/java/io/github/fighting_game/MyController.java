@@ -2,8 +2,15 @@ package io.github.fighting_game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class MyController {
     private Skin controllerSkin;
@@ -70,11 +77,6 @@ public class MyController {
         this.punchesTouchpad = punchesTouchpad;
     }
 
-    public void setZIndex(int index){
-        directionsTouchpad.setZIndex(index);
-        punchesTouchpad.setZIndex(index);
-    }
-
     public void setPosition(float x, float y){
 
     };
@@ -85,5 +87,10 @@ public class MyController {
 
     public  void setPunchButtonsPos(float x, float y){
         punchesTouchpad.setPosition(x, y);
+    }
+
+    public void addToStage(Stage stage){
+        stage.addActor(directionsTouchpad);
+        stage.addActor(punchesTouchpad);
     }
 }

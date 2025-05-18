@@ -130,7 +130,6 @@ public class MySprite extends Sprite implements Disposable {
         this(makeTexture(strTexturePath), x, y, 0, 0, flipH);
     }
 
-
     //Methods
 
     public void flip(boolean flip_h){
@@ -181,6 +180,10 @@ public class MySprite extends Sprite implements Disposable {
 
     protected static Texture createDefaultTexture(){
         return createDefaultTexture(Color.RED);
+    }
+
+    public boolean isFlipped(){
+        return flip_h;
     }
 
     public void dispose() {

@@ -16,7 +16,9 @@ public class MyCharacter extends MyCenteredSprite {
     private boolean isStunned;
     private boolean isCrouching;
     private boolean isOnFloor;
+
     public boolean shouldClearBuffer;
+
     private boolean isLeft;
     private boolean isActive;
     private boolean visibleColliders;
@@ -105,11 +107,7 @@ public class MyCharacter extends MyCenteredSprite {
                 bodyCollider = newBodyCollider;
                 hitCollider = newHitCollider;
 
-                bodyCollider.setPosition(getCenteredX(),
-                    getCenteredY());
-
-                hitCollider.setPosition(getCenteredX() + hitCollider.getCenteredX(),
-                    getCenteredY() + hitCollider.getCenteredY());
+                resetCurrentColliderPos();
             }
 
             if(visibleColliders)
@@ -191,11 +189,17 @@ public class MyCharacter extends MyCenteredSprite {
     }
 
     private void resetCurrentColliderPos(){
-        bodyCollider.setPosition(getCenteredX() + bodyCollider.getRelativeXPos(), getCenteredY() +
-            bodyCollider.getRelativeYPos());
+        final float newBodyColliderXPos = getCenteredX() + bodyCollider.getRelativeXPos() *
+            (currentAnimation.isFlipped() ? -1 : 1);
+        final float newBodyColliderYPos = getCenteredY() + bodyCollider.getRelativeYPos();
 
-        hitCollider.setPosition(getCenteredX() + hitCollider.getRelativeXPos(), getCenteredY() +
-            hitCollider.getRelativeYPos());
+        bodyCollider.setPosition(newBodyColliderXPos, newBodyColliderYPos);
+
+        final float newHitColliderXPos = getCenteredX() + hitCollider.getRelativeXPos()*
+            (currentAnimation.isFlipped() ? -1 : 1);
+        final float newHitColliderYPos = getCenteredY() + hitCollider.getRelativeYPos();
+
+        hitCollider.setPosition(newHitColliderXPos, newHitColliderYPos);
     }
 
 
@@ -293,13 +297,10 @@ public class MyCharacter extends MyCenteredSprite {
     }
 
     public boolean containCollider(MyCharacter enemy){
-        float colliderPos = hitCollider.getX() + getCenteredX() + hitCollider.getWidth();
-        float enemyColliderPos = enemy.getCenteredX() - enemy.bodyCollider.getX() -
-            (float) enemy.bodyCollider.getWidth() / 2;
-        return isLeft? colliderPos >= enemyColliderPos :
-            getCenteredX() -hitCollider.getCenteredX() - (float) hitCollider.getWidth() / 2 <=
-                enemy.bodyCollider.getX() + enemy.getCenteredX() +
-                    (float) enemy.bodyCollider.getWidth() / 2;
+        float hitColliderPos = hitCollider.getX();
+        float enemyBodyColliderPos = enemy.getBodyCollider().getX();
+        return isLeft? hitColliderPos + hitCollider.getWidth() >= enemyBodyColliderPos :
+            hitColliderPos <= enemyBodyColliderPos + enemy.getBodyCollider().getWidth();
     }
 
     private void hitEnemy(MyCharacter enemy, float damage, float push){
@@ -374,7 +375,6 @@ public class MyCharacter extends MyCenteredSprite {
             if(currentAnimation.getName().equals("hit_stun") && currentAnimation.is_finished())
                 reset();
             else if (!tryResetAnimations()) return;
-
         }
 
         if(isDownPressed){
@@ -400,6 +400,13 @@ public class MyCharacter extends MyCenteredSprite {
 
             punch(isRightPressed, isUpPressed, isLeftPressed, isDownPressed);
         }
+    }
+
+    public void punch(Touchpad touchpad){
+        float touchpadKnobPercentX = touchpad.getKnobPercentX();
+        float  touchpadKnobPercentY = touchpad.getKnobPercentY();
+
+        punch(touchpadKnobPercentX, touchpadKnobPercentY);
     }
 
     public void movement(boolean isRightPressed, boolean isUpPressed, boolean isLeftPressed,

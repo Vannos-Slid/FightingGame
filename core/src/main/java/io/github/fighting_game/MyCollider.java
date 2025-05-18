@@ -18,6 +18,8 @@ public class MyCollider extends MyCenteredSprite {
         super(x, y, width, height, Color.CYAN);
         isDisabled = boolIsDisabled;
         isVisible = boolIsVisible;
+        this.relativeXPos = relativeXPos;
+        this.relativeYPos = relativeYPos;
     }
 
     MyCollider(float relativeXPos, float relativeYPos, float x, float y, int width, int height, boolean boolIsDisabled) {
@@ -26,10 +28,6 @@ public class MyCollider extends MyCenteredSprite {
 
     MyCollider(float relativeXPos, float relativeYPos, float x, float y, int width, int height) {
         this(relativeXPos, relativeYPos, x, y, width, height, true);
-    }
-
-    MyCollider(Collider collider){
-        this(0,0, collider.getX(), collider.getY(), collider.getWidth(), collider.getHeight());
     }
 
     //Getters
@@ -51,7 +49,6 @@ public class MyCollider extends MyCenteredSprite {
     public float getY() {
         return super.getY();
     }
-
 
     //Setters
 
