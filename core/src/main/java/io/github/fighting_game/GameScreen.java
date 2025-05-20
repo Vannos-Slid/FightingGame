@@ -168,8 +168,8 @@ public class GameScreen implements Screen {
     }
 
     private void init(String strLevelName){
-        //Load platform
 
+        //Load platform
         platform = MySimplerMethods.loadPlatform(strLevelName);
 
         int newPlatformX = (WORLD_WIDTH - platform.getWidth())/2;
