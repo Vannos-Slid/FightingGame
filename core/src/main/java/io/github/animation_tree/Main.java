@@ -11,12 +11,14 @@ import com.badlogic.gdx.utils.ScreenUtils;
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends Game {
     private EditScreen editScreen;
+    private TestScreen testScreen;
 
     @Override
     public void create() {
-        editScreen = new EditScreen();
+        //set false to play the game
+        boolean isTestingMode = true;
 
-        setScreen(editScreen);
+        setScreen(isTestingMode? (testScreen = new TestScreen()) : (editScreen = new EditScreen()));
     }
 
     @Override
@@ -27,7 +29,13 @@ public class Main extends Game {
 
     @Override
     public void dispose() {
-        editScreen.dispose();
+        super.dispose();
+        if (editScreen != null){
+            editScreen.dispose();
+        }
+        if (testScreen != null){
+            testScreen.dispose();
+        }
     }
 
     @Override

@@ -85,7 +85,7 @@ public class EditScreen implements Screen, InputProcessor {
                 {
                     Gdx.app.log("DragAndDrop", "Item dropped in target zone");
                 } else {
-                    draggableItem.setPosition(0, 0);
+//                    draggableItem.setPosition(0, 0);
                     Gdx.app.log("DragAndDrop", "Sosav?");
                 }
             }
