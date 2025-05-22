@@ -25,7 +25,6 @@ public class GameScreen implements Screen {
     //Graphics
     private SpriteBatch batch;
     private Stage stage;
-    private InputMultiplexer multiplexer;
 
     //Fields
     private final float ZOOM_FACTOR = 0.375f;
