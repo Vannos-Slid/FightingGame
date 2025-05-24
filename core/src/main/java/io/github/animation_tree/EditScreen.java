@@ -24,8 +24,8 @@ public class EditScreen implements Screen, InputProcessor {
     private Viewport viewport;
 
     //Screen parameters
-    private final int WORLD_WIDTH = 1920;
-    private final int WORLD_HEIGHT = 1080;
+    private final int WORLD_WIDTH = 1280;
+    private final int WORLD_HEIGHT = 720;
 
     //Graphics
     private SpriteBatch batch;
@@ -38,8 +38,6 @@ public class EditScreen implements Screen, InputProcessor {
     private Sprite sprite;
     private Sprite sprite2;
 
-
-
     EditScreen(){
         camera = new OrthographicCamera();
         viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
@@ -49,20 +47,15 @@ public class EditScreen implements Screen, InputProcessor {
         stage = new Stage(viewport, batch);
 
         texture2 = new Texture(Gdx.files.internal("scout_is_scared.png"));
-        Image targetZone = new Image(texture2);
         sprite2 = new Sprite(texture2);
+        Image targetZone = new Image(sprite2);
 
         texture = new Texture(Gdx.files.internal("medic.png"));
         sprite = new Sprite(texture);
-        Image draggableItem = new Image(texture);
+        Image draggableItem = new Image(sprite);
 
-        draggableItem.setPosition(WORLD_WIDTH / 2f - sprite.getWidth() / 2, WORLD_HEIGHT / 2f -
-            sprite.getHeight() / 2);
-
-//        multiplexer = new InputMultiplexer();
-//
-//        multiplexer.addProcessor(stage);
-//        multiplexer.addProcessor(this);
+//        draggableItem.setPosition(WORLD_WIDTH / 2f - sprite.getWidth() / 2, WORLD_HEIGHT / 2f -
+//            sprite.getHeight() / 2);
 
         Gdx.input.setInputProcessor(stage);
 
@@ -70,24 +63,24 @@ public class EditScreen implements Screen, InputProcessor {
         stage.addActor(draggableItem);
 
         draggableItem.addListener(new DragListener(){
+            private float offsetX, offsetY;
+
+            @Override
+            public void dragStart(InputEvent event, float x, float y, int pointer) {
+                offsetX = event.getStageX() - draggableItem.getX();
+                offsetY = event.getStageY() - draggableItem.getY();
+
+                System.out.println(event.getStageX() + "\n" + event.getStageY());
+            }
+
             @Override
             public void drag(InputEvent event, float x, float y, int pointer) {
-                draggableItem.moveBy(x - draggableItem.getWidth() / 2,
-                    y - draggableItem.getHeight() / 2);
+                draggableItem.setPosition(event.getStageX() - offsetX, event.getStageY() - offsetY);
             }
 
             @Override
             public void dragStop(InputEvent event, float x, float y, int pointer) {
-                if (draggableItem.getX() > targetZone.getX() &&
-                    draggableItem.getX() < targetZone.getX() + targetZone.getWidth() &&
-                    draggableItem.getY() > targetZone.getY() &&
-                    draggableItem.getY() < targetZone.getY() + targetZone.getHeight())
-                {
-                    Gdx.app.log("DragAndDrop", "Item dropped in target zone");
-                } else {
-//                    draggableItem.setPosition(0, 0);
-                    Gdx.app.log("DragAndDrop", "Sosav?");
-                }
+                System.out.println("Smert`");
             }
         });
     }

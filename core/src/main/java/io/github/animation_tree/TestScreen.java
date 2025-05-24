@@ -34,9 +34,11 @@ public class TestScreen implements Screen {
 
     private Texture texture;
     private Texture texture2;
+
     private Sprite sprite;
     private Sprite sprite2;
 
+    //Logic
     private DragAndDrop dragAndDrop;
 
     TestScreen(){
@@ -57,8 +59,8 @@ public class TestScreen implements Screen {
         sprite = new Sprite(texture);
         Image draggableItem = new Image(sprite);
 
-        draggableItem.setPosition(WORLD_WIDTH / 2f - sprite.getWidth() / 2, WORLD_HEIGHT / 2f -
-            sprite.getHeight() / 2);
+//        draggableItem.setPosition(WORLD_WIDTH / 2f - sprite.getWidth() / 2, WORLD_HEIGHT / 2f -
+//            sprite.getHeight() / 2);
 
         dragAndDrop = new DragAndDrop();
 
@@ -70,13 +72,29 @@ public class TestScreen implements Screen {
                 DragAndDrop.Payload payload = new DragAndDrop.Payload();
                 payload.setObject(getActor());
                 payload.setDragActor(getActor());
-                dragAndDrop.setDragActorPosition(getActor().getWidth() - x,
-                    -getActor().getHeight() + y);
+
+                offsetX = event.getStageX() - draggableItem.getX();
+                offsetY = event.getStageY() - draggableItem.getY();
+
+                dragAndDrop.setDragActorPosition(event.getStageX() - offsetX,
+                    event.getStageY() - offsetY);
+//                dragAndDrop.setDragActorPosition(getActor().getWidth() - x,
+//                    -getActor().getHeight() + y);
 
 //               dragAndDrop.setDragActorPosition(getActor().getWidth() / 2,
 //                   -getActor().getHeight() / 2);
 
+//                dragAndDrop.setDragActorPosition(-x, -y + getActor().getHeight());
+
                 return payload;
+            }
+
+            @Override
+            public void drag(InputEvent event, float x, float y, int pointer) {
+//                dragAndDrop.setDragActorPosition(event.getStageX() - offsetX,
+//                    event.getStageY() - offsetY);
+//                draggableItem.moveBy(event.getStageX() - offsetX, event.getStageY() - offsetY);
+
             }
         });
 
