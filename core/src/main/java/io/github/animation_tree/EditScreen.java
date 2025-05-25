@@ -6,11 +6,13 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -40,9 +42,14 @@ public class EditScreen implements Screen, InputProcessor {
     private final int WORLD_WIDTH = 1920;
     private final int WORLD_HEIGHT = 1080;
 
+    private final float AXIS_ORIGIN_X = WORLD_WIDTH / 2f;
+    private final float AXIS_ORIGIN_Y = WORLD_HEIGHT / 2f;
+
     //Graphics
     private SpriteBatch batch;
     private Stage stage;
+
+    private ShapeRenderer shapeRenderer;
 
     private Texture texture;
     private Texture texture2;
@@ -56,6 +63,8 @@ public class EditScreen implements Screen, InputProcessor {
 
         batch = new SpriteBatch();
         stage = new Stage(viewport, batch);
+
+        shapeRenderer = new ShapeRenderer();
 
         texture2 = new Texture(Gdx.files.internal("scout_is_scared.png"));
         sprite2 = new Sprite(texture2);
@@ -163,6 +172,7 @@ public class EditScreen implements Screen, InputProcessor {
         stage.dispose();
         texture.dispose();
         texture2.dispose();
+        shapeRenderer.dispose();
 
     }
 
@@ -173,12 +183,26 @@ public class EditScreen implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
-//        ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
+//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        camera.position.x = 0;
+        camera.position.y = 0;
 
         camera.update();
 
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.line(-WORLD_WIDTH, 0, WORLD_WIDTH, 0);
+        shapeRenderer.setColor(Color.GREEN);
+        shapeRenderer.line(0, -WORLD_HEIGHT, 0, WORLD_HEIGHT);
+        shapeRenderer.end();
+
         batch.setProjectionMatrix(camera.combined);
+
+        batch.begin();
+        batch.end();
 
         stage.act(delta);
         stage.draw();
