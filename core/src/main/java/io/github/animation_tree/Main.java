@@ -16,7 +16,7 @@ public class Main extends Game {
     @Override
     public void create() {
         //set false to play the game
-        boolean isTestingMode = true;
+        boolean isTestingMode = false   ;
 
         setScreen(isTestingMode? (testScreen = new TestScreen()) : (editScreen = new EditScreen()));
     }

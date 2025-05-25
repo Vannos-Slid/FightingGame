@@ -1,21 +1,34 @@
 package io.github.animation_tree;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.swing.text.Utilities;
 
 public class EditScreen implements Screen, InputProcessor {
 
@@ -24,14 +37,12 @@ public class EditScreen implements Screen, InputProcessor {
     private Viewport viewport;
 
     //Screen parameters
-    private final int WORLD_WIDTH = 1280;
-    private final int WORLD_HEIGHT = 720;
+    private final int WORLD_WIDTH = 1920;
+    private final int WORLD_HEIGHT = 1080;
 
     //Graphics
     private SpriteBatch batch;
     private Stage stage;
-
-//    InputMultiplexer multiplexer;
 
     private Texture texture;
     private Texture texture2;
@@ -49,18 +60,19 @@ public class EditScreen implements Screen, InputProcessor {
         texture2 = new Texture(Gdx.files.internal("scout_is_scared.png"));
         sprite2 = new Sprite(texture2);
         Image targetZone = new Image(sprite2);
+        targetZone.setName("targetZone");
 
         texture = new Texture(Gdx.files.internal("medic.png"));
         sprite = new Sprite(texture);
         Image draggableItem = new Image(sprite);
+        draggableItem.setName("draggableItem");
 
-//        draggableItem.setPosition(WORLD_WIDTH / 2f - sprite.getWidth() / 2, WORLD_HEIGHT / 2f -
-//            sprite.getHeight() / 2);
-
-        Gdx.input.setInputProcessor(stage);
+//        Gdx.input.setInputProcessor(stage);
 
         stage.addActor(targetZone);
         stage.addActor(draggableItem);
+
+        loadOrInitPositions();
 
         draggableItem.addListener(new DragListener(){
             private float offsetX, offsetY;
@@ -69,8 +81,6 @@ public class EditScreen implements Screen, InputProcessor {
             public void dragStart(InputEvent event, float x, float y, int pointer) {
                 offsetX = event.getStageX() - draggableItem.getX();
                 offsetY = event.getStageY() - draggableItem.getY();
-
-                System.out.println(event.getStageX() + "\n" + event.getStageY());
             }
 
             @Override
@@ -80,9 +90,71 @@ public class EditScreen implements Screen, InputProcessor {
 
             @Override
             public void dragStop(InputEvent event, float x, float y, int pointer) {
-                System.out.println("Smert`");
+                System.out.println("The element has been dragged");
             }
         });
+
+        //Prepare input screen
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(stage);
+        inputMultiplexer.addProcessor(this);
+        Gdx.input.setInputProcessor(inputMultiplexer);
+    }
+
+    private void loadOrInitPositions(){
+        FileHandle fileHandle = Gdx.files.local("Json/positions.json");
+        if (!fileHandle.exists() || fileHandle.length() == 0){
+            savePosition(fileHandle);
+        } else {
+            try{
+               loadPosition(fileHandle);
+            } catch (Exception e){
+                e.printStackTrace();
+                savePosition(fileHandle);
+            }
+        }
+    }
+
+    private void loadPosition(FileHandle fileHandle){
+        if (fileHandle.exists()){
+            JsonReader jsonReader = new JsonReader();
+            JsonValue root = jsonReader.parse(fileHandle);
+            if (root.isArray()){
+                for (JsonValue posValue : root){
+                    String name = posValue.getString("name");
+                    float x = posValue.getFloat("x");
+                    float y = posValue.getFloat("y");
+                    Actor actor = stage.getRoot().findActor(name);
+                    if (actor != null){
+                        actor.setPosition(x,y);
+                    }
+                }
+            } else {
+                savePosition(fileHandle);
+            }
+        }
+    }
+
+    private void savePosition(FileHandle fileHandle){
+        try {
+            JsonWriter jsonWriter = new JsonWriter(fileHandle.writer(false));
+            jsonWriter.setOutputType(JsonWriter.OutputType.json);
+            jsonWriter.array();
+
+            for (Actor actor : stage.getActors()){
+                if (actor.getName() != null){
+                    jsonWriter.object();
+                    jsonWriter.name("name").value(actor.getName());
+                    jsonWriter.name("x").value(actor.getX());
+                    jsonWriter.name("y").value(actor.getY());
+                    jsonWriter.pop();
+                }
+            }
+            jsonWriter.pop();
+            jsonWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -136,7 +208,12 @@ public class EditScreen implements Screen, InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        return false;
+        if (keycode == Input.Keys.S && (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT) ||
+            Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT))){
+            savePosition(Gdx.files.local("Json/positions.json"));
+            return true;
+        }
+        return true;
     }
 
     @Override
