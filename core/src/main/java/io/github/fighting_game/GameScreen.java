@@ -39,8 +39,8 @@ public class GameScreen implements Screen {
 
     private Platform platform;
 
-    private HealthBar healthBarLeft;
-    private HealthBar healthBarRight;
+    private MyHealthBar healthBarLeft;
+    private MyHealthBar healthBarRight;
 
     //Controller
     private MyController myController;
@@ -65,6 +65,9 @@ public class GameScreen implements Screen {
         healthBarLeft.dispose();
 
         myController.dispose();
+
+        punchesStatistic.dispose();
+        statistic.dispose();
     }
 
     //Initiation
@@ -108,9 +111,9 @@ public class GameScreen implements Screen {
     private void initUIComponents(){
 
         //Load health bars
-        healthBarLeft = new HealthBar(lCharacter.getName(), false);
+        healthBarLeft = new MyHealthBar(lCharacter.getName(), false);
 
-        healthBarRight = new HealthBar(rCharacter.getName(), true);
+        healthBarRight = new MyHealthBar(rCharacter.getName(), true);
 
         //Load controller
 
@@ -279,8 +282,11 @@ public class GameScreen implements Screen {
             healthBarRight.setHealth(rCharacter.getHealth());
         }
 
-        healthBarLeft.render(batch, camera);
-        healthBarRight.render(batch, camera);
+//        healthBarLeft.render(batch, camera);
+//        healthBarRight.render(batch, camera);
+
+        healthBarLeft.draw(batch, camera,  1);
+        healthBarRight.draw(batch, camera, 1);
 
         final float STATISTICS_OFFSET_Y = 50F;
 

@@ -8,6 +8,10 @@ import com.github.tommyettinger.textra.TypingLabel;
 public class MyStatistic extends Actor {
     private TypingLabel stats;
 
+    public void dispose(){
+        stats.getFont().dispose();
+    }
+
     MyStatistic(int fontSize){
         super();
 
