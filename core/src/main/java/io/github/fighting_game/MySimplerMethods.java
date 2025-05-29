@@ -3,7 +3,10 @@ package io.github.fighting_game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -89,6 +92,50 @@ public class MySimplerMethods {
 //
 //        return labelStyle;
 //    }
+
+    public static Texture makeTexture(Texture texture){
+        return texture != null? texture : createDefaultTexture();
+    }
+
+    public static Texture makeTexture(FileHandle fileHandle){
+        Texture texture;
+
+        texture = fileHandle.exists() ? new Texture(fileHandle) : createDefaultTexture();
+
+        return texture;
+    }
+
+    public static Texture makeTexture(String strTexturePath) {
+        return makeTexture(Gdx.files.internal(strTexturePath));
+    }
+
+    public static Texture createDefaultTexture(int width, int height, Color color){
+        Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGB888);
+        pixmap.setColor(color);
+        pixmap.fill();
+
+        Texture newTexture = new Texture(pixmap);
+        pixmap.dispose();
+        return newTexture;
+    }
+
+    public static Texture createDefaultTexture(Color color){
+        return createDefaultTexture(100, 100, color);
+    }
+
+    public static Texture createDefaultTexture(int width, int height){
+        return createDefaultTexture(width, height, Color.RED);
+    }
+
+    public static Texture createDefaultTexture(){
+        return createDefaultTexture(Color.RED);
+    }
+
+    public static Sprite createCenteredSprite(String strTexturePath, float x, float y){
+        FileHandle fileHandle = Gdx.files.internal(strTexturePath);
+        Texture texture = makeTexture(fileHandle);
+        return new Sprite(texture, (int) x, (int) y, texture.getWidth(), texture.getHeight());
+    }
 
     public static  Label.LabelStyle generateDefaultLabelStyle(){
 

@@ -1,6 +1,9 @@
 package io.github.fighting_game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,16 +11,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Disposable;
 
 public class MyCenteredSprite extends  MySprite {
-
-    private static Texture cashedTexture;
-    private float x;
-    private float y;
+    private float centeredX;
+    private float centeredY;
 
     MyCenteredSprite(float x, float y, int width, int height, Texture textureObject, boolean flip_h) {
         super(textureObject, unCenter(x, width), unCenter(y, height), width, height,
             flip_h);
-        this.x = x;
-        this.y = y;
+        this.centeredX = x;
+        this.centeredY = y;
     }
 
     MyCenteredSprite(float x, float y, int width, int height, TextureRegion textureRegion, boolean flip_h) {
@@ -26,8 +27,8 @@ public class MyCenteredSprite extends  MySprite {
 
     MyCenteredSprite(float x, float y, int width, int height, String strTexturePath, boolean flip_h) {
         super(strTexturePath, unCenter(x,width), unCenter(y, height), width, height, flip_h);
-        this.x = x;
-        this.y = y;
+        this.centeredX = x;
+        this.centeredY = y;
     }
 
     MyCenteredSprite(String strTexturePath, float x, float y, int width, int height) {
@@ -43,10 +44,9 @@ public class MyCenteredSprite extends  MySprite {
     }
 
     MyCenteredSprite(String strTexturePath, float x, float y, boolean flip_h) {
-        super(strTexturePath, unCenter(x, getCashedTexture(strTexturePath).getWidth()),
-            unCenter(y, getCashedTexture(strTexturePath).getHeight()), flip_h);
-        this.x = x;
-        this.y = y;
+        super(MySimplerMethods.createCenteredSprite(strTexturePath, x, y), flip_h);
+        this.centeredX = x;
+        this.centeredY = y;
     }
 
     MyCenteredSprite(String strTexturePath, float x, float y) {
@@ -63,8 +63,8 @@ public class MyCenteredSprite extends  MySprite {
 
     MyCenteredSprite(float x, float y, int width, int height, Color color){
         super(color, unCenter(x,width), unCenter(y, height), width, height);
-        this.x = x;
-        this.y = y;
+        this.centeredX = x;
+        this.centeredY = y;
     }
 
     MyCenteredSprite(float x, float y, int width, int height){
@@ -80,42 +80,34 @@ public class MyCenteredSprite extends  MySprite {
     }
 
     public float getCenteredX() {
-        return x;
+        return centeredX;
     }
 
     public float getCenteredY() {
-        return y;
+        return centeredY;
     }
 
     @Override
     public void setPosition(float x, float y) {
         super.setPosition(unCenter(x, getWidth()), unCenter(y, getHeight()));
-        this.x = x;
-        this.y = y;
+        this.centeredX = x;
+        this.centeredY = y;
     }
 
     @Override
     public void setX(float x) {
         super.setX(unCenter(x, getWidth()));
-        this.x = x;
+        this.centeredX = x;
     }
 
     @Override
     public void setY(float y) {
         super.setY(unCenter(y, getHeight()));
-        this.y = y;
+        this.centeredY = y;
     }
 
     public static float unCenter(float num, float step){
         return num - step / 2;
-    }
-
-    public static Texture getCashedTexture(String strTexturePath) {
-        if(cashedTexture == null){
-            cashedTexture = makeTexture(strTexturePath);
-            return cashedTexture;
-        }
-        return cashedTexture;
     }
 
     @Override
@@ -123,14 +115,12 @@ public class MyCenteredSprite extends  MySprite {
         super.draw(batch);
     }
 
-
+    public static Texture makeTexture(Texture texture){
+        return texture != null? texture : MySimplerMethods.createDefaultTexture();
+    }
 
     @Override
     public void dispose() {
-        if(cashedTexture != null){
-            cashedTexture.dispose();
-            cashedTexture = null;
-        }
         super.dispose();
     }
 

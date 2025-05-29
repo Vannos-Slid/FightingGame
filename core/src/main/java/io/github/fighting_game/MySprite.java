@@ -15,7 +15,7 @@ public class MySprite extends Sprite implements Disposable {
     protected boolean flip_h;
 
     public MySprite(Color color, float x, float y, float width, float height){
-        super(createDefaultTexture((int) width, (int) height, color));
+        super(MySimplerMethods.createDefaultTexture((int) width, (int) height, color));
 
         this.setPosition(x, y);
         this.setSize(width, height);
@@ -32,7 +32,7 @@ public class MySprite extends Sprite implements Disposable {
     }
 
     public MySprite(Texture texture, float x, float y, float width, float height, boolean flip_h){
-        super(makeTexture(texture));
+        super(MySimplerMethods.makeTexture(texture));
         super.setPosition(x, y);
         if (width != 0.f && height != 0){
             this.setSize(width, height);
@@ -86,12 +86,12 @@ public class MySprite extends Sprite implements Disposable {
     }
 
     public MySprite() {
-        super(createDefaultTexture());
+        super(MySimplerMethods.createDefaultTexture());
         this.flip_h = false;
     }
 
     public MySprite(String strTexturePath, float x, float y, float width, float height, boolean flip_h){
-        this(makeTexture(strTexturePath), x, y, width, height, flip_h);
+        this(MySimplerMethods.makeTexture(strTexturePath), x, y, width, height, flip_h);
     }
 
     public MySprite(String strTexturePath, float x, float y, float width, float height){
@@ -107,27 +107,31 @@ public class MySprite extends Sprite implements Disposable {
     }
 
     public MySprite(Texture texture, int srcWidth, int srcHeight) {
-        super(makeTexture(texture), srcWidth, srcHeight);
+        super(MySimplerMethods.makeTexture(texture), srcWidth, srcHeight);
         this.flip_h = false;
     }
 
     public MySprite(Texture texture, int srcX, int srcY, int srcWidth, int srcHeight) {
-        super(makeTexture(texture), srcX, srcY, srcWidth, srcHeight);
+        super(MySimplerMethods.makeTexture(texture), srcX, srcY, srcWidth, srcHeight);
         this.flip_h = false;
     }
 
     public MySprite(TextureRegion region, int srcX, int srcY, int srcWidth, int srcHeight) {
-        super(makeTexture(region.getTexture()), srcX, srcY, srcWidth, srcHeight);
+        super(MySimplerMethods.makeTexture(region.getTexture()), srcX, srcY, srcWidth, srcHeight);
         this.flip_h = false;
+    }
+
+    public MySprite(Sprite sprite, boolean flip_h){
+        super(sprite);
+        this.flip_h = flip_h;
     }
 
     public MySprite(Sprite sprite) {
-        super(sprite);
-        this.flip_h = false;
+        this(sprite, false);
     }
 
     public MySprite(String strTexturePath, float x, float y, boolean flipH) {
-        this(makeTexture(strTexturePath), x, y, 0, 0, flipH);
+        this(MySimplerMethods.makeTexture(strTexturePath), x, y, 0, 0, flipH);
     }
 
     //Methods
@@ -141,45 +145,6 @@ public class MySprite extends Sprite implements Disposable {
 
     public void flip() {
         this.flip(true, false);
-    }
-
-
-    public static Texture makeTexture(Texture texture){
-        return texture != null? texture : createDefaultTexture();
-    }
-
-    public static Texture makeTexture(FileHandle fileHandle){
-        Texture texture;
-
-        texture = fileHandle.exists() ? new Texture(fileHandle) : createDefaultTexture();
-
-        return texture;
-    }
-
-    public static Texture makeTexture(String strTexturePath) {
-        return makeTexture(Gdx.files.internal(strTexturePath));
-    }
-
-    protected static Texture createDefaultTexture(int width, int height, Color color){
-        Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGB888);
-        pixmap.setColor(color);
-        pixmap.fill();
-
-        Texture newTexture = new Texture(pixmap);
-        pixmap.dispose();
-        return newTexture;
-    }
-
-    protected static Texture createDefaultTexture(Color color){
-        return createDefaultTexture(100, 100, color);
-    }
-
-    protected static Texture createDefaultTexture(int width, int height){
-        return createDefaultTexture(width, height, Color.RED);
-    }
-
-    protected static Texture createDefaultTexture(){
-        return createDefaultTexture(Color.RED);
     }
 
     public boolean isFlipped(){
