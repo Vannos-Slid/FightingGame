@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -42,8 +43,16 @@ public class EditScreen implements Screen, InputProcessor {
     private final int WORLD_WIDTH = 1920;
     private final int WORLD_HEIGHT = 1080;
 
-    private final float AXIS_ORIGIN_X = WORLD_WIDTH / 2f;
-    private final float AXIS_ORIGIN_Y = WORLD_HEIGHT / 2f;
+    private boolean testFlag = false;
+
+    private final float ZOOM_FACTOR = 1.3F;
+
+    private float touchedDownX;
+    private float touchedDownY;
+
+    private Vector3 originalCameraPos;
+
+    private boolean isMouseTouchedDown;
 
     //Graphics
     private SpriteBatch batch;
@@ -60,6 +69,10 @@ public class EditScreen implements Screen, InputProcessor {
         camera = new OrthographicCamera();
         viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
         viewport.apply();
+
+        touchedDownX = 0;
+        touchedDownY = 0;
+        isMouseTouchedDown = false;
 
         batch = new SpriteBatch();
         stage = new Stage(viewport, batch);
@@ -124,23 +137,28 @@ public class EditScreen implements Screen, InputProcessor {
         }
     }
 
-    private void loadPosition(FileHandle fileHandle){
+    private void loadPosition( FileHandle fileHandle){
         if (fileHandle.exists()){
-            JsonReader jsonReader = new JsonReader();
-            JsonValue root = jsonReader.parse(fileHandle);
-            if (root.isArray()){
-                for (JsonValue posValue : root){
-                    String name = posValue.getString("name");
-                    float x = posValue.getFloat("x");
-                    float y = posValue.getFloat("y");
-                    Actor actor = stage.getRoot().findActor(name);
-                    if (actor != null){
-                        actor.setPosition(x,y);
+            try{
+                JsonReader jsonReader = new JsonReader();
+                JsonValue root = jsonReader.parse(fileHandle);
+                if (root.isArray()){
+                    for (JsonValue posValue : root){
+                        String name = posValue.getString("name");
+                        float x = posValue.getFloat("x");
+                        float y = posValue.getFloat("y");
+                        Actor actor = stage.getRoot().findActor(name);
+                        if (actor != null){
+                            actor.setPosition(x,y);
+                        }
                     }
+                } else {
+                    savePosition(fileHandle);
                 }
-            } else {
-                savePosition(fileHandle);
+            } catch (Exception e){
+                e.printStackTrace();
             }
+
         }
     }
 
@@ -186,8 +204,12 @@ public class EditScreen implements Screen, InputProcessor {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
 //        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.position.x = 0;
-        camera.position.y = 0;
+        if (!testFlag){
+            camera.position.x = 0;
+            camera.position.y = 0;
+            testFlag = true;
+        }
+
 
         camera.update();
 
@@ -252,13 +274,36 @@ public class EditScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        System.out.println("Sosav?");
+        System.out.println(
+            "touchDown: screenX: " + screenX + ", screenY: " + screenY + ", pointer: " + pointer +
+                ", button: " + button
+        );
+
+        touchedDownX = screenX;
+        touchedDownY = screenY;
+        isMouseTouchedDown = true;
+        originalCameraPos = camera.position.cpy();
+
+        System.out.println("origin camera position: " + camera.position);
         return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
+        System.out.println("touchedDownX: " + touchedDownX + ", touchedDownY: " + touchedDownY);
+
+        System.out.println(
+            "touchDown: screenX: " + screenX + ", screenY: " + screenY + ", pointer: " + pointer +
+                ", button: " + button
+        );
+
+
+        float deltaX = screenX - touchedDownX;
+        float deltaY = screenY - touchedDownY;
+
+        System.out.println("deltaX: " + deltaX + ", deltaY: " + deltaY);
+        isMouseTouchedDown = false;
+        return true;
     }
 
     @Override
@@ -268,7 +313,18 @@ public class EditScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
+        System.out.println(
+            "touchDown: screenX: " + screenX + ", screenY: " + screenY + ", pointer: " + pointer
+        );
+        if (isMouseTouchedDown){
+            float deltaX = screenX - touchedDownX;
+            float deltaY = screenY - touchedDownY;
+            Vector3 newCameraPos = originalCameraPos.cpy();
+            newCameraPos.add(-deltaX, deltaY, 0f);
+            camera.position.set(newCameraPos);
+            camera.update();
+        }
+        return true;
     }
 
     @Override
@@ -280,4 +336,6 @@ public class EditScreen implements Screen, InputProcessor {
     public boolean scrolled(float amountX, float amountY) {
         return false;
     }
+
+
 }
