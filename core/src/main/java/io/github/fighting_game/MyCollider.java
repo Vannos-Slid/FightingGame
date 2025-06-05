@@ -40,16 +40,6 @@ public class MyCollider extends MyCenteredSprite {
         return relativeYPos;
     }
 
-    @Override
-    public float getX() {
-        return super.getX();
-    }
-
-    @Override
-    public float getY() {
-        return super.getY();
-    }
-
     //Setters
 
     public void disable() {
@@ -83,31 +73,6 @@ public class MyCollider extends MyCenteredSprite {
     public void draw(SpriteBatch batch, float alphaModulation){
         if(isVisible)
             super.draw(batch, alphaModulation);
-    }
-
-    @Override
-    public float getCenteredX() {
-        return super.getCenteredX();
-    }
-
-    @Override
-    public float getCenteredY() {
-        return super.getCenteredY();
-    }
-
-    @Override
-    public void setPosition(float x, float y) {
-        super.setPosition(x, y);
-    }
-
-    @Override
-    public void setX(float x) {
-        super.setX(x);
-    }
-
-    @Override
-    public void setY(float y) {
-        super.setY(y);
     }
 
 

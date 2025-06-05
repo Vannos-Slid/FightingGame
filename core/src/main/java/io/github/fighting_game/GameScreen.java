@@ -1,5 +1,6 @@
 package io.github.fighting_game;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,6 +13,8 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class GameScreen implements Screen {
+    //Main Game class pointer
+    private final Main GAME;
 
     //Screen
     private OrthographicCamera camera;
@@ -209,12 +212,13 @@ public class GameScreen implements Screen {
 //        Gdx.input.setInputProcessor(multiplexer);
     }
 
-    GameScreen(String strLevelName) {
+    GameScreen(Main game,String strLevelName) {
+        this.GAME = game;
         init(strLevelName);
     }
 
-    GameScreen() {
-        this("The Balcony");
+    GameScreen(Main game) {
+        this(game,"The Balcony");
     }
 
     @Override

@@ -1,59 +1,60 @@
 package io.github.fighting_game;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class MainMenuScreen implements Screen {
-    private final Game game;
+    private final Main GAME;
     private Stage stage;
-    private Button button;
     private SpriteBatch batch;
-    private BitmapFont fontSelectTraining;
-    private String strSelectTraining;
 
-    public MainMenuScreen(Game game){
-        this.game = game;
+    public MainMenuScreen(Main game){
+        this.GAME = game;
         stage = new Stage();
+        Skin skin = new Skin(Gdx.files.internal("assets/Buttons/default/skin/uiskin.json"));
         Gdx.input.setInputProcessor(stage);
+
         batch = new SpriteBatch();
-        fontSelectTraining = new BitmapFont();
-        fontSelectTraining.setColor(Color.WHITE);
-        strSelectTraining = "Training";
 
-        TextureObjectP textureObjectP = createTransparentTexture(100, 100);
-        ClickListener clickListener = new ClickListener(){
+        TextButton playButton = new TextButton("Play", skin);
+        TextButton optionsButton = new TextButton("Options", skin);
+        TextButton exitButton = new TextButton("Exit", skin);
+
+        playButton.setPosition(100,200);
+        optionsButton.setPosition(100, 150);
+        exitButton.setPosition(100, 100);
+
+        stage.addActor(playButton);
+        stage.addActor(optionsButton);
+        stage.addActor(exitButton);
+
+        playButton.addListener(new ChangeListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen());
+            public void changed(ChangeEvent event, Actor actor) {
+                GAME.switchScreen(new GameScreen(GAME));
             }
-        };
-        button = new Button(textureObjectP, clickListener);
-        Table table = new Table();
-        table.setFillParent(true);
-        table.center();
-        table.add(button).pad(10);
+        });
 
-        stage.addActor(table);
-    }
+        optionsButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                System.out.println("Template - should set to a OptionsScreen window");
+            }
+        });
 
-    private TextureObjectP createTransparentTexture(int width, int height){
-        Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
-        pixmap.setColor(0, 0, 0, 0);
-        pixmap.fill();
-
-        Texture texture = new Texture(pixmap);
-        return new TextureObjectP(0, 0, width, height, texture, false);
+        exitButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.exit();
+            }
+        });
     }
 
     @Override
@@ -66,8 +67,6 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(delta);
         stage.draw();
-        batch.begin();
-        fontSelectTraining.draw(batch, strSelectTraining, 0, button.getHeight() / 2 + fontSelectTraining.getCapHeight() /2);
     }
 
     @Override
@@ -94,6 +93,5 @@ public class MainMenuScreen implements Screen {
     public void dispose() {
         batch.dispose();
         stage.dispose();
-        fontSelectTraining.dispose();
     }
 }
