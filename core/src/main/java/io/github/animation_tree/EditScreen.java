@@ -7,7 +7,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -15,12 +14,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
-import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
-import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
@@ -28,10 +23,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-import javax.swing.text.Utilities;
+import javax.lang.model.util.SimpleAnnotationValueVisitor6;
 
 public class EditScreen implements Screen, InputProcessor {
 
@@ -45,7 +37,7 @@ public class EditScreen implements Screen, InputProcessor {
 
     private boolean testFlag = false;
 
-    private final float ZOOM_FACTOR = 1.3F;
+    private float zoomFactor;
 
     private float touchedDownX;
     private float touchedDownY;
@@ -60,15 +52,33 @@ public class EditScreen implements Screen, InputProcessor {
 
     private ShapeRenderer shapeRenderer;
 
-    private Texture texture;
-    private Texture texture2;
-    private Sprite sprite;
-    private Sprite sprite2;
+    private Sprite textureSprite;
+    private Sprite hitColliderSprite;
+    private Sprite bodyColliderSprite;
+
+    private Image draggableSprite;
+    private Image draggableHitCollider;
+    private Image draggableBodyCollider;
+
+    @Override
+    public void dispose() {
+        batch.dispose();
+        stage.dispose();
+
+        textureSprite.getTexture().dispose();
+        hitColliderSprite.getTexture().dispose();
+        bodyColliderSprite.getTexture().dispose();
+
+        shapeRenderer.dispose();
+
+    }
 
     EditScreen(){
         camera = new OrthographicCamera();
         viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
         viewport.apply();
+
+        zoomFactor = 1;
 
         touchedDownX = 0;
         touchedDownY = 0;
@@ -79,42 +89,40 @@ public class EditScreen implements Screen, InputProcessor {
 
         shapeRenderer = new ShapeRenderer();
 
-        texture2 = new Texture(Gdx.files.internal("scout_is_scared.png"));
-        sprite2 = new Sprite(texture2);
-        Image targetZone = new Image(sprite2);
-        targetZone.setName("targetZone");
+        Texture bodyColliderTexture = MySimplerMethods.createDefaultColliderTexture();
+        bodyColliderSprite = new Sprite(bodyColliderTexture);
+        draggableBodyCollider = MySimplerMethods.createImageObject("draggableBodyCollider",
+            bodyColliderSprite, 0.5f);
+        draggableBodyCollider.setSize(40f, 130f);
 
-        texture = new Texture(Gdx.files.internal("medic.png"));
-        sprite = new Sprite(texture);
-        Image draggableItem = new Image(sprite);
-        draggableItem.setName("draggableItem");
+        Texture hitColliderTexture = MySimplerMethods.createDefaultColliderTexture();
+        hitColliderSprite = new Sprite(hitColliderTexture);
+        draggableHitCollider = MySimplerMethods.createImageObject("draggableHitCollider",
+            hitColliderSprite, 0.5f);
+        draggableHitCollider.setSize(58f, 60f);
+
+        Texture spriteTexture = new Texture(Gdx.files.internal("light-feet-6.png"));
+        textureSprite = new Sprite(spriteTexture);
+        draggableSprite = MySimplerMethods.createImageObject("draggableSprite",
+            textureSprite);
+
 
 //        Gdx.input.setInputProcessor(stage);
 
-        stage.addActor(targetZone);
-        stage.addActor(draggableItem);
+        stage.addActor(draggableSprite);
+        stage.addActor(draggableBodyCollider);
+        stage.addActor(draggableHitCollider);
+
 
         loadOrInitPositions();
 
-        draggableItem.addListener(new DragListener(){
-            private float offsetX, offsetY;
+        // make images able to be dragged
 
-            @Override
-            public void dragStart(InputEvent event, float x, float y, int pointer) {
-                offsetX = event.getStageX() - draggableItem.getX();
-                offsetY = event.getStageY() - draggableItem.getY();
-            }
+        draggableSprite.addListener(MySimplerMethods.createDefaultDragListener(draggableSprite));
 
-            @Override
-            public void drag(InputEvent event, float x, float y, int pointer) {
-                draggableItem.setPosition(event.getStageX() - offsetX, event.getStageY() - offsetY);
-            }
+        draggableHitCollider.addListener(MySimplerMethods.createDefaultDragListener(draggableHitCollider));
 
-            @Override
-            public void dragStop(InputEvent event, float x, float y, int pointer) {
-                System.out.println("The element has been dragged");
-            }
-        });
+        draggableBodyCollider.addListener(MySimplerMethods.createDefaultDragListener(draggableBodyCollider));
 
         //Prepare input screen
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
@@ -152,6 +160,7 @@ public class EditScreen implements Screen, InputProcessor {
                             actor.setPosition(x,y);
                         }
                     }
+                    System.out.println("The elements positions have been loaded");
                 } else {
                     savePosition(fileHandle);
                 }
@@ -179,19 +188,10 @@ public class EditScreen implements Screen, InputProcessor {
             }
             jsonWriter.pop();
             jsonWriter.close();
+            System.out.println("New positions have been saved.");
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void dispose() {
-        batch.dispose();
-        stage.dispose();
-        texture.dispose();
-        texture2.dispose();
-        shapeRenderer.dispose();
-
     }
 
     @Override
@@ -216,9 +216,9 @@ public class EditScreen implements Screen, InputProcessor {
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.RED);
-        shapeRenderer.line(-WORLD_WIDTH, 0, WORLD_WIDTH, 0);
+        shapeRenderer.line(-WORLD_WIDTH-WORLD_WIDTH, 0, WORLD_WIDTH + WORLD_WIDTH, 0);
         shapeRenderer.setColor(Color.GREEN);
-        shapeRenderer.line(0, -WORLD_HEIGHT, 0, WORLD_HEIGHT);
+        shapeRenderer.line(0, -WORLD_HEIGHT-WORLD_HEIGHT, 0, WORLD_HEIGHT+WORLD_HEIGHT);
         shapeRenderer.end();
 
         batch.setProjectionMatrix(camera.combined);
@@ -233,8 +233,25 @@ public class EditScreen implements Screen, InputProcessor {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
+        System.out.println("resize: width: " + width + ", height: " + height);
+        System.out.println("windowWidth: " + WORLD_WIDTH + ", windowHeight: " + WORLD_HEIGHT);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
+    }
+
+    private void zoomInCamera(){
+        zoomFactor -= 0.1f;
+        zoomFactor = Math.max(zoomFactor, 0.3f);
+        camera.viewportWidth = WORLD_WIDTH * zoomFactor;
+        camera.viewportHeight = WORLD_HEIGHT * zoomFactor;
+        camera.update();
+    }
+
+    private void zoomOutCamera(){
+        zoomFactor += 0.1f;
+        camera.viewportWidth = WORLD_WIDTH * zoomFactor;
+        camera.viewportHeight = WORLD_HEIGHT * zoomFactor;
+        camera.update();
     }
 
     @Override
@@ -296,7 +313,6 @@ public class EditScreen implements Screen, InputProcessor {
             "touchDown: screenX: " + screenX + ", screenY: " + screenY + ", pointer: " + pointer +
                 ", button: " + button
         );
-
 
         float deltaX = screenX - touchedDownX;
         float deltaY = screenY - touchedDownY;
